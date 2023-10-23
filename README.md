@@ -13,6 +13,7 @@ Internal-Jugular-Vein Project
 
 ## Table of Contents
 - [Introduction](#Introduction)
+- [Installation](#Installation)
 - [Project Flows](#Project-Flows)
     - [Simulation](#Simulation)
     - [*In-vivo*](#In-vivo)
@@ -21,6 +22,17 @@ Internal-Jugular-Vein Project
 
 ## Introduction
 - TODO
+
+## Installation
+Create a virtual environment and activate it.
+> **How to creaete a virtual environment?**
+> For **Anaconda** user, Read [**this document**](https://hackmd.io/@aMXX54b3ToSm3kTNB_LuWQ/BJ_No2Rkp)
+
+Install the dependencies.
+```
+pip install -r requirements.txt
+```
+
 
 ## Project Flows
 ### Simulation
@@ -49,5 +61,5 @@ Internal-Jugular-Vein Project
 
 
 ## Reference
-* To understand more detial, basically this repository is followed by my master thesis. Please check NAS:Data/BOSI Lab/Thesis/R10 to access the full text.
+* To understand more detail, basically this repository is followed by my master thesis. Please check NAS:Data/BOSI Lab/Thesis/R10 to access the full text version.
 
