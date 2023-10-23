@@ -60,6 +60,8 @@ pip install -r requirements.txt
     * Run Monte Carlo simulation based on the open source **MCX** we modified
 * ultrasound_image_processing_parallel
     * Constuct the numerical model of IJV by ultrasound image.
+* surrogate_model
+    * Build the surrogate model to replace traditional MC simulation.
 
 
 ## Reference
