@@ -68,7 +68,7 @@ To analyze ultrasound image by using **ImageJ**, please view [this document](htt
 
 ---
 
-TODO :   
+**TODO :**     
 oblique IJV model --> https://stackoverflow.com/questions/48818373/interpolate-between-two-images
 
 https://stackoverflow.com/questions/59690451/how-to-turn-ct-segmentation-into-3d-model-in-python
