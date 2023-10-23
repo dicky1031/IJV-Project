@@ -1,14 +1,15 @@
 Internal-Jugular-Vein Project
 ===
-> [time=Sat, Jan 29, 2022 11:11 PM]
-> [name=dicky1031]
-:::info
-:bulb: This is the description of the IJV project, which aims to ensure code behavior consistency. Please ensure that your environment aligns with the following specifications.
+-   Author: Chin-Hsuan Sun
+-   License: MIT License
+-   Update date: 2023/10/23
+
+>:bulb: This is the description of the IJV project, which aims to ensure code behavior consistency. Please ensure that your environment aligns with the following specifications.
 
 ![Static Badge](https://img.shields.io/badge/python-v3.8.0-blue)
 ![Static Badge](https://img.shields.io/badge/pip-v20.2.0_(python3.8)-orange)
 ![Static Badge](https://img.shields.io/badge/cuda-v11.7.0-green)
-:::
+
 
 ## Table of Contents
 
