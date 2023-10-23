@@ -2,6 +2,9 @@ import os
 import numpy as np
 import sys
 
+# %% move to current file path
+os.chdir(sys.path[0])
+
 MUS_SET = np.load(os.path.join("OPs_used", "mus_set.npy"))
 
 

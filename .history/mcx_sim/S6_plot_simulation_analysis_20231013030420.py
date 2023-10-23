@@ -4,6 +4,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 import json
 import sys
+# %% move to current file path
+os.chdir(sys.path[0])
 
 result_folder = 'ctchen'
 subject = 'ctchen'

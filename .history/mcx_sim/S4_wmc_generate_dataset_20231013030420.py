@@ -7,6 +7,8 @@ import os
 from glob import glob
 from tqdm import tqdm
 import sys
+# %% move to current file path
+os.chdir(sys.path[0])
 
 # %% Global
 mua_set = np.load(os.path.join("OPs_used", "mua_set.npy"))
