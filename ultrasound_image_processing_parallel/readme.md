@@ -1,8 +1,4 @@
 # Ultrasound Image Processing
-:::info
-:bulb: ??? 
-:::
-
 ## 1. get ultrasound image by screenshot to video
 you need to find to geometry structure one for IJV systolic (IJV small), one for IJV diastolic (IJV large).
 
@@ -67,10 +63,12 @@ Then you will success to get the voxel file (*vol.npy)
 1. make sure `subject` and `date` is synchronous with ***S1_ijv_model_find_tissue.py***
 2. run the program 
 
-
+## Reference
+To analyze ultrasound image by using **ImageJ**, please view [this document](https://hackmd.io/@aMXX54b3ToSm3kTNB_LuWQ/rJqy986g6).
 
 ---
 
-TODO : oblique IJV model --> https://stackoverflow.com/questions/48818373/interpolate-between-two-images
+TODO :   
+oblique IJV model --> https://stackoverflow.com/questions/48818373/interpolate-between-two-images
 
 https://stackoverflow.com/questions/59690451/how-to-turn-ct-segmentation-into-3d-model-in-python
