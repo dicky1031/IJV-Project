@@ -35,6 +35,7 @@ pip install -r requirements.txt
 
 
 ## Project Flows
+![image](https://github.com/dicky1031/IJV_simulation/blob/main/pic/project_process.png)
 ### Simulation
 1. Building Numerical Model of IJV by Ultrasound Image
 2. MCX (Monte Carlo) simulation
