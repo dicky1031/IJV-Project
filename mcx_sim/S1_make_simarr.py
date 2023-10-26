@@ -7,12 +7,21 @@ import pandas as pd
 TISSUES = ['skin', 'fat', 'muscle', 'ijv', 'cca']
 
 def Get_OPs_set(bound: dict, split_num: list, OP_type: str, savepath: str):
-    '''
-    bound['tissue'] = [upperbound, lowerbound]
-    len(split_num) = len(tissues)
-    OP_type = mus or mua
-    ijv mus = cca mus
-    '''
+    """
+    _summary_ : getting the optical parameter(OP) set we want to simulate,
+    split to training set and testing set for the purpose of training surrogate model.
+    For testing set, we only get 10% datasize compare to training set.
+
+    Args:
+        bound (dict): {key : [upperbound, lowerbound]}
+        split_num (list): [skin_OP_gen_num, fat_OP_gen_num, ...]
+        OP_type (str): ['mus' | 'mua']
+        savepath (str): saving directory
+
+    Returns:
+        OPs_set_train (pd.DataFrame),  OPs_set_test (pd.DataFrame) : each row correspond to one configuration.
+    """
+    
     assert len(bound) != len(split_num), 'tissues and split size not match'
     if OP_type == 'mus':
         assert split_num[-1] == split_num[-2], 'ijv mus should be same as cca mus'
