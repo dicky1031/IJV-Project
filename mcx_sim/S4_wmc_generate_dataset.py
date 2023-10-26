@@ -8,14 +8,6 @@ from glob import glob
 from tqdm import tqdm
 import sys
 
-# %% Global
-
-
-# each detector has 6 copy to magnify the signal
-
-# %%
-
-
 class post_processing:
 
     def __init__(self, result_folder, ID, datasetpath, USED_SDS, mua_set, mus_set, air_mua=0, PLA_mua=10000, prism_mua=0):
