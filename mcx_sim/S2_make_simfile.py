@@ -4,9 +4,7 @@ import json
 import numpy as np
 import sys
 
-# script setting
-# sessionID = sys.argv[1] # sessionID = "KB_ijv_small_to_large"
-# PhotonNum = sys.argv[2] # PhotonNum = 3e8
+# ====================== Modify your setting here ======================
 result_folder = "Julie_low_scatter_train"
 subject = "Julie"
 date = "20231012" # date of ultrasound data
@@ -14,6 +12,7 @@ PhotonNum = 1e9
 VoxelSize = 0.25 # must be same when you create numeric model of IJV structure 
 DetectorNA = 0.22
 mus_set = np.load(os.path.join("OPs_used", "mus_set_train.npy"))
+# ======================================================================
 
 # %% run
 ijv_types = ['large', 'small']

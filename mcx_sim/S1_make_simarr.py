@@ -81,6 +81,11 @@ def Get_OPs_set(bound: dict, split_num: list, OP_type: str, savepath: str):
                             OPs_set_test[idx][3] = ijv_OP
                             OPs_set_test[idx][4] = cca_OP
                             idx += 1
+    # randomly choose 10% datasize 
+    if OP_type == 'mus':
+        np.random.shuffle(OPs_set_test)
+        OPs_set_test = OPs_set_test[:int(OPs_set_test.shape[0]*0.1)]
+        
     np.save(os.path.join(savepath, f'{OP_type}_set_test.npy'), OPs_set_test)
     OPs_set_test = pd.DataFrame(OPs_set_test, columns=TISSUES)
     OPs_set_test.to_csv(os.path.join(savepath, f'{OP_type}_set_test.csv'), index=False)

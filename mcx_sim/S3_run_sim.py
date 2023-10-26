@@ -25,6 +25,20 @@ class Timer():
         return '{}s'.format(x)
 
 def run_mcx(result_mother_folder, subject, mus_start, mus_end, NA_enable, NA, runningNum, cvThreshold, repeatTimes, ijv_type):
+    """_summary_
+
+    Args:
+        result_mother_folder (_type_): _description_
+        subject (_type_): _description_
+        mus_start (_type_): _description_
+        mus_end (_type_): _description_
+        NA_enable (_type_): _description_
+        NA (_type_): _description_
+        runningNum (_type_): _description_
+        cvThreshold (_type_): _description_
+        repeatTimes (_type_): _description_
+        ijv_type (_type_): _description_
+    """
     timer = Timer()
     ID = f'{subject}_ijv_{ijv_type}'
     for run_idx in tqdm(range(mus_start, mus_end+1)):
@@ -104,6 +118,7 @@ def run_mcx(result_mother_folder, subject, mus_start, mus_end, NA_enable, NA, ru
 
 
 if __name__ == "__main__":
+    # ====================== Modify your setting here ======================
     result_mother_folder = "Julie_low_scatter_train"
     subject = "Julie"
     ijv_type_set = ['large', 'small']
@@ -114,6 +129,7 @@ if __name__ == "__main__":
     runningNum = 0  # (Integer or False) 
     cvThreshold = 3
     repeatTimes = 10 # repeat n times to calculate CV
+    # ======================================================================
 
     for ijv_type in ijv_type_set:
         run_mcx(result_mother_folder = result_mother_folder, 
