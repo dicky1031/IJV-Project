@@ -12,6 +12,9 @@ import sys
 
 # %% run
 class Timer():
+    """
+    This is the clock timer, only measure how long we take to do simulations.
+    """
     def __init__(self):
         self.o = time.time()
 
@@ -24,20 +27,21 @@ class Timer():
             return '{}m'.format(round(x / 60))
         return '{}s'.format(x)
 
-def run_mcx(result_mother_folder, subject, mus_start, mus_end, NA_enable, NA, runningNum, cvThreshold, repeatTimes, ijv_type):
+def run_mcx(result_mother_folder: str, subject: str, mus_start: int, mus_end: int, NA_enable: int, 
+            NA: float, runningNum: int, cvThreshold: float, repeatTimes: int, ijv_type: str):
     """_summary_
 
     Args:
-        result_mother_folder (_type_): _description_
-        subject (_type_): _description_
-        mus_start (_type_): _description_
-        mus_end (_type_): _description_
-        NA_enable (_type_): _description_
-        NA (_type_): _description_
-        runningNum (_type_): _description_
-        cvThreshold (_type_): _description_
-        repeatTimes (_type_): _description_
-        ijv_type (_type_): _description_
+        result_mother_folder (str): mother folder of simulation results.
+        subject (str): subject name
+        mus_start (int): the starting idx of configuration in mus_set.
+        mus_end (int): the ending idx of configuration in mus_set.
+        NA_enable (int): [1|0], 1: consider NA, 0: not consider NA.
+        NA (float): numerical aperture of detector
+        runningNum (int): Run {runningNum} times simulations then stop.
+        cvThreshold (float): Do simulation until CV < cvThreshold
+        repeatTimes (int): Repeat {repeatTimes} times, for first stage to calculate CV.
+        ijv_type (str): ['large' | 'small']
     """
     timer = Timer()
     ID = f'{subject}_ijv_{ijv_type}'
@@ -118,7 +122,7 @@ def run_mcx(result_mother_folder, subject, mus_start, mus_end, NA_enable, NA, ru
 
 
 if __name__ == "__main__":
-    # ====================== Modify your setting here ======================
+    # ====================== Modify your setting here ====================== #
     result_mother_folder = "Julie_low_scatter_train"
     subject = "Julie"
     ijv_type_set = ['large', 'small']
@@ -129,7 +133,7 @@ if __name__ == "__main__":
     runningNum = 0  # (Integer or False) 
     cvThreshold = 3
     repeatTimes = 10 # repeat n times to calculate CV
-    # ======================================================================
+    # ====================================================================== #
 
     for ijv_type in ijv_type_set:
         run_mcx(result_mother_folder = result_mother_folder, 

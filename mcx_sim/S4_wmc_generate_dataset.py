@@ -1,4 +1,3 @@
-
 import numpy as np
 import cupy as cp
 import jdata as jd
@@ -138,14 +137,14 @@ class post_processing:
 
 
 if __name__ == "__main__":
-    # ====================== Modify your setting here ======================
+    # ====================== Modify your setting here ====================== #
     result_folder = "Julie_low_scatter_train"
     subject = "Julie"
     run_start_idx = 1
     run_end_idx = 225
     mua_set = np.load(os.path.join("OPs_used", "mua_set_train.npy"))
     mus_set = np.load(os.path.join("OPs_used", "mus_set_train.npy"))
-    # ======================================================================
+    # ====================================================================== #
     
     USED_SDS = cp.array([0, 1, 2, 3, 4, 5])
     ijv_type_set = ["ijv_large", "ijv_small"]
