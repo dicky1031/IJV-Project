@@ -40,14 +40,15 @@ def get_dataset(subject: str, train_or_test: str, ijv_type: str, )  -> np.ndarra
 if __name__ == "__main__":
     # ====================== Modify your setting here ====================== #
     subject = "Julie"
-    train_or_test = "test" # ["train" | "test"]
     # ====================================================================== #
     
     os.makedirs(os.path.join("dataset", subject), exist_ok=True)
+    train_or_test_set = ["train", "test"] # ["train" | "test"]
     ijv_type_set = ["ijv_large", "ijv_small"]
-    for ijv_type in ijv_type_set:
-        data = get_dataset(subject=subject,
-                           ijv_type=ijv_type,
-                           train_or_test=train_or_test)
-        np.save(os.path.join('dataset', subject, f'{ijv_type}_{train_or_test}.npy'), data)
+    for train_or_test in train_or_test_set:
+        for ijv_type in ijv_type_set:
+            data = get_dataset(subject=subject,
+                            ijv_type=ijv_type,
+                            train_or_test=train_or_test)
+            np.save(os.path.join('dataset', subject, f'{ijv_type}_{train_or_test}.npy'), data)
 
