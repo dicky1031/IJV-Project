@@ -7,7 +7,7 @@ import numpy as np
 result_folder = "Julie_low_scatter_v2"
 subject = "Julie"
 date = "20231012" # date of ultrasound data
-PhotonNum = 1e9
+PhotonNum = 1e7
 VoxelSize = 0.25 # must be same when you create numeric model of IJV structure 
 DetectorNA = 0.22
 # ====================================================================== #
