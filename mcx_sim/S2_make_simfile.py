@@ -4,7 +4,7 @@ import json
 import numpy as np
 
 # ====================== Modify your setting here ====================== #
-result_folder = "Julie_low_scatter"
+result_folder = "Julie_low_scatter_v2"
 subject = "Julie"
 date = "20231012" # date of ultrasound data
 PhotonNum = 1e9

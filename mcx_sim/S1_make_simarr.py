@@ -33,8 +33,10 @@ def Get_OPs_set(bound: dict, split_num: list, OP_type: str, savepath: str):
         if OP_type == 'mus' and tissue == 'cca':
             break
         if OP_type =='mus' and tissue == 'ijv':    
-            OPs_table_train[tissue] = list(np.linspace(bound[tissue][0]-20, bound[tissue][1], 2*split_num[i]))[::2]  # simulate low scattering region
-            OPs_table_test[tissue] = list(np.linspace(bound[tissue][0]-20, bound[tissue][1], 2*split_num[i]))[1::2]  # simulate low scattering region
+            # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! #
+            OPs_table_train[tissue] = list(np.linspace(bound[tissue][0]-15, bound[tissue][1], 2*split_num[i]))[::2]  # simulate low scattering region
+            OPs_table_test[tissue] = list(np.linspace(bound[tissue][0]-15, bound[tissue][1], 2*split_num[i]))[1::2]  # simulate low scattering region
+            # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! #
         else:
             OPs_table_train[tissue] = list(np.linspace(bound[tissue][0], bound[tissue][1], 2*split_num[i]))[::2]
             OPs_table_test[tissue] = list(np.linspace(bound[tissue][0], bound[tissue][1], 2*split_num[i]))[1::2]
@@ -106,7 +108,7 @@ if __name__ == "__main__":
     with open(os.path.join("OPs_used", "mus_bound.json"), "r") as f:
         mus_bound = json.load(f)
     mus_tissues = ['skin', 'fat', 'muscle', 'ijv', 'cca']
-    split_num = [5, 5, 3, 3, 3]
+    split_num = [5, 5, 5, 5, 5]
     savepath = 'OPs_used'
     mus_set = Get_OPs_set(bound = mus_bound, 
                           split_num = split_num, 
@@ -117,7 +119,7 @@ if __name__ == "__main__":
     with open(os.path.join("OPs_used", "mua_bound.json"), "r") as f:
         mua_bound = json.load(f)
     mua_tissues = ['skin', 'fat', 'muscle', 'ijv', 'cca']
-    split_num = [3, 3, 5, 7, 7]
+    split_num = [5, 5, 7, 9, 9]
     savepath = 'OPs_used'
     mua_set = Get_OPs_set(bound = mua_bound, 
                           split_num = split_num, 

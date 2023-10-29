@@ -122,15 +122,15 @@ def run_mcx(result_mother_folder: str, subject: str, mus_start: int, mus_end: in
 #%%
 if __name__ == "__main__":
     # ====================== Modify your setting here ====================== #
-    result_mother_folder = "Julie_low_scatter"
+    result_mother_folder = "Julie_low_scatter_v2"
     subject = "Julie"
     ijv_type_set = ['ijv_large', 'ijv_small']
     mus_start = 1
-    mus_end = 225
+    mus_end = 625
     NA_enable = 1  # 0 not consider NA, 1 consider NA
     NA = 0.22
     runningNum = 0  # (Integer or False) 
-    cvThreshold = 3
+    cvThreshold = 1
     repeatTimes = 10 # repeat n times to calculate CV
     # ====================================================================== #
     train_or_test_set = ['train', 'test']
@@ -145,5 +145,6 @@ if __name__ == "__main__":
                     runningNum = runningNum, 
                     cvThreshold = cvThreshold, 
                     repeatTimes = repeatTimes, 
-                    ijv_type = ijv_type)
+                    ijv_type = ijv_type,
+                    train_or_test= train_or_test)
     print("====================== Finish !! ======================")

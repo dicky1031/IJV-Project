@@ -143,7 +143,7 @@ class post_processing:
 #%%
 if __name__ == "__main__":
     # ====================== Modify your setting here ====================== #
-    result_mother_folder = "Julie_low_scatter"
+    result_mother_folder = "Julie_low_scatter_v2"
     subject = "Julie"
     run_start_idx = 1
     run_end_idx = 225
