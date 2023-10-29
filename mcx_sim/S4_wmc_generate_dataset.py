@@ -5,15 +5,18 @@ import json
 import os
 from glob import glob
 from tqdm import tqdm
-import sys
 
+#%%
 class post_processing:
 
-    def __init__(self, result_folder, ID, datasetpath, USED_SDS, mua_set, mus_set, air_mua=0, PLA_mua=10000, prism_mua=0):
-        self.result_folder = result_folder
+    def __init__(self, result_mother_folder: str, train_or_test: str, ID: str, datasetpath: str, USED_SDS: np.ndarray, 
+                 mua_set: np.ndarray, mus_set: np.ndarray, 
+                 air_mua: float=0, PLA_mua: float=10000, prism_mua:float=0):
+        self.result_mother_folder = result_mother_folder
+        self.train_or_test = train_or_test
         self.ID = ID
         self.datasetpath = datasetpath
-        self.USED_SDS = USED_SDS
+        self.USED_SDS = cp.array(USED_SDS) # convert to GPU type
         self.mua_set = mua_set
         self.total_mua_conditions = mua_set.shape[0]
         self.mus_set = mus_set
@@ -52,10 +55,11 @@ class post_processing:
             raise Exception("Something wrong in your ID name !")
     
     def create_folder(self):
-        os.makedirs(os.path.join("dataset", self.result_folder,
+        os.makedirs(os.path.join("dataset", self.result_mother_folder, self.train_or_test,
                 self.datasetpath), exist_ok=True)
-
-    def get_used_mus(self, mus_run_idx):
+        
+    # private method
+    def __get_used_mus(self, mus_run_idx: int):
         self.mus_used = np.array([self.mus_set[mus_run_idx-1, 0],  # skin_mus
                             self.mus_set[mus_run_idx-1, 1],  # fat_mus
                             self.mus_set[mus_run_idx-1, 2],  # musle_mus
@@ -64,7 +68,8 @@ class post_processing:
                             ])
         return self.mus_used
 
-    def get_config(self, mus_run_idx):
+    # private method
+    def __get_config(self, mus_run_idx: int):
         self.session = f"run_{mus_run_idx}"
         with open(os.path.join(os.path.join(self.ID, self.session), "config.json")) as f:
             config = json.load(f)  # about detector na, & photon number
@@ -78,11 +83,11 @@ class post_processing:
         self.detOutputPathSet.sort(key=lambda x: int(x.split("_")[-2]))
         self.detectorNum = len(self.fiberSet)*3*2
     
-    def WMC(self, mus_run_idx):
-        self.get_config(mus_run_idx)
+    def WMC(self, mus_run_idx: int):
+        self.__get_config(mus_run_idx)
         dataset_output = np.empty([self.total_mua_conditions, 10+len(self.fiberSet)])
         
-        used_mus = self.get_used_mus(mus_run_idx)
+        used_mus = self.__get_used_mus(mus_run_idx)
         used_mus = np.tile(used_mus, self.total_mua_conditions).reshape(self.total_mua_conditions, 5)
         used_mua = cp.array(self.mua_used)
         
@@ -135,29 +140,31 @@ class post_processing:
         
         return dataset_output
 
-
+#%%
 if __name__ == "__main__":
     # ====================== Modify your setting here ====================== #
-    result_folder = "Julie_low_scatter_train"
+    result_mother_folder = "Julie_low_scatter"
     subject = "Julie"
     run_start_idx = 1
     run_end_idx = 225
-    mua_set = np.load(os.path.join("OPs_used", "mua_set_train.npy"))
-    mus_set = np.load(os.path.join("OPs_used", "mus_set_train.npy"))
     # ====================================================================== #
     
-    USED_SDS = cp.array([0, 1, 2, 3, 4, 5])
+    USED_SDS = np.array([0, 1, 2, 3, 4, 5])
+    train_or_test_set = ['train', 'test']
     ijv_type_set = ["ijv_large", "ijv_small"]
-    for ijv_type in ijv_type_set:
-        ID = os.path.join("dataset", result_folder, f"{subject}_{ijv_type}")
-        datasetpath = f"{subject}_WMC_{ijv_type}"
-        
-        processsor = post_processing(result_folder, ID, datasetpath, USED_SDS, mua_set, mus_set)
-        processsor.create_folder()
+    for train_or_test in train_or_test_set:
+        mua_set = np.load(os.path.join("OPs_used", f"mua_set_{train_or_test}.npy"))
+        mus_set = np.load(os.path.join("OPs_used", f"mus_set_{train_or_test}.npy"))
+        for ijv_type in ijv_type_set:
+            ID = os.path.join("dataset", result_mother_folder, train_or_test, f"{subject}_{ijv_type}")
+            datasetpath = f"{subject}_WMC_{ijv_type}"
+            
+            processsor = post_processing(result_mother_folder, train_or_test, ID, datasetpath, USED_SDS, mua_set, mus_set, train_or_test)
+            processsor.create_folder()
 
-        for mus_run_idx in tqdm(range(run_start_idx, run_end_idx+1)):
-            print(f"\n Now run mus_set_{mus_run_idx} idx")
-            dataset_output = processsor.WMC(mus_run_idx)
-            np.save(os.path.join("dataset", result_folder, datasetpath,
-                    f"mus_{mus_run_idx}.npy"), dataset_output)
+            for mus_run_idx in tqdm(range(run_start_idx, run_end_idx+1)):
+                print(f"\n Now run mus_set_{mus_run_idx} idx")
+                dataset_output = processsor.WMC(mus_run_idx)
+                np.save(os.path.join("dataset", result_mother_folder, train_or_test, datasetpath,
+                        f"{result_mother_folder}_mus_{mus_run_idx}.npy"), dataset_output)
     print("====================== Finish !! ======================")

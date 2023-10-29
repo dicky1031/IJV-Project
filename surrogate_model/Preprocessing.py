@@ -5,21 +5,22 @@ from torch.utils.data import Dataset, DataLoader
 
 #%% data preprocessing
 class dataload(Dataset):
-    def __init__(self, root, mus_set_path, mua_set_path, SDS1, SDS2):
+    def __init__(self, root: str, mus_max: np.ndarray, mus_min: np.ndarray, mua_max: np.ndarray, mua_min: np.ndarray):
+        # load dataset then split to x and y
         xy = np.load(root)
-        self.mus_set = np.load(mus_set_path)
-        self.mua_set = np.load(mua_set_path)
         self.x = torch.from_numpy(xy[:,:10])
-        max_mus = np.max(self.mus_set, axis=0)[:5]
-        max_mua = np.max(self.mua_set, axis=0)[:5]
-        self.x_max = torch.from_numpy(np.concatenate((max_mus,max_mua)))
-        min_mus = np.min(self.mus_set, axis=0)[:5]
-        min_mua = np.min(self.mua_set, axis=0)[:5]
-        self.x_min = torch.from_numpy(np.concatenate((min_mus,min_mua)))
+        self.y = torch.from_numpy(xy[:,[10,11]]) # index 10 for SDS1, index 11 for SDS2
+        
+        # input normalization
+        self.x_max = torch.from_numpy(np.concatenate((mus_max, mua_max)))
+        self.x_min = torch.from_numpy(np.concatenate((mus_min, mua_min)))
         self.x = (self.x - self.x_min) / (self.x_max - self.x_min)
-        self.y = torch.from_numpy(xy[:,[SDS1+10,SDS2+10]]) # SDS2:10.00mm  SDS16: 20.00mm
+        
+        # output normalization
         self.y = -torch.log(self.y)
+        
         self.n_samples = xy.shape[0]
+
                 
     def __getitem__(self, index):
         

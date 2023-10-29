@@ -3,12 +3,10 @@ import calculateR_CV
 import json
 import os
 import numpy as np
-import pandas as pd
 from glob import glob
 from time import sleep
 from tqdm import tqdm
 import time
-import sys
 
 # %% run
 class Timer():
@@ -28,7 +26,7 @@ class Timer():
         return '{}s'.format(x)
 
 def run_mcx(result_mother_folder: str, subject: str, mus_start: int, mus_end: int, NA_enable: int, 
-            NA: float, runningNum: int, cvThreshold: float, repeatTimes: int, ijv_type: str):
+            NA: float, runningNum: int, cvThreshold: float, repeatTimes: int, ijv_type: str, train_or_test: str):
     """_summary_
 
     Args:
@@ -41,16 +39,17 @@ def run_mcx(result_mother_folder: str, subject: str, mus_start: int, mus_end: in
         runningNum (int): Run {runningNum} times simulations then stop.
         cvThreshold (float): Do simulation until CV < cvThreshold
         repeatTimes (int): Repeat {repeatTimes} times, for first stage to calculate CV.
-        ijv_type (str): ['large' | 'small']
+        ijv_type (str): ['ijv_large' | 'ijv_small']
+        train_or_test (str): ['train' | 'test']
     """
     timer = Timer()
-    ID = f'{subject}_ijv_{ijv_type}'
+    ID = f'{subject}_{ijv_type}'
     for run_idx in tqdm(range(mus_start, mus_end+1)):
         now = time.time()
         
         # Setting
         session = f"run_{run_idx}"
-        sessionID = os.path.join("dataset", result_mother_folder, ID, session)
+        sessionID = os.path.join("dataset", result_mother_folder, train_or_test, ID, session)
         
         # Do simulation
         # initialize
@@ -120,12 +119,12 @@ def run_mcx(result_mother_folder: str, subject: str, mus_start: int, mus_end: in
                                  timer.measure(run_idx / mus_end)))
         sleep(0.01)
 
-
+#%%
 if __name__ == "__main__":
     # ====================== Modify your setting here ====================== #
-    result_mother_folder = "Julie_low_scatter_train"
+    result_mother_folder = "Julie_low_scatter"
     subject = "Julie"
-    ijv_type_set = ['large', 'small']
+    ijv_type_set = ['ijv_large', 'ijv_small']
     mus_start = 1
     mus_end = 225
     NA_enable = 1  # 0 not consider NA, 1 consider NA
@@ -134,15 +133,17 @@ if __name__ == "__main__":
     cvThreshold = 3
     repeatTimes = 10 # repeat n times to calculate CV
     # ====================================================================== #
-
-    for ijv_type in ijv_type_set:
-        run_mcx(result_mother_folder = result_mother_folder, 
-                subject = subject, 
-                mus_start = mus_start, 
-                mus_end = mus_end, 
-                NA_enable = NA_enable,
-                NA = NA, 
-                runningNum = runningNum, 
-                cvThreshold = cvThreshold, 
-                repeatTimes = repeatTimes, 
-                ijv_type = ijv_type)
+    train_or_test_set = ['train', 'test']
+    for train_or_test in train_or_test_set:
+        for ijv_type in ijv_type_set:
+            run_mcx(result_mother_folder = result_mother_folder, 
+                    subject = subject, 
+                    mus_start = mus_start, 
+                    mus_end = mus_end, 
+                    NA_enable = NA_enable,
+                    NA = NA, 
+                    runningNum = runningNum, 
+                    cvThreshold = cvThreshold, 
+                    repeatTimes = repeatTimes, 
+                    ijv_type = ijv_type)
+    print("====================== Finish !! ======================")
