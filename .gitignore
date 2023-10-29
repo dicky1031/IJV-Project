@@ -239,3 +239,5 @@ pyrightconfig.json
 dataset/
 result/
 pic/
+model_save/
+*.pth

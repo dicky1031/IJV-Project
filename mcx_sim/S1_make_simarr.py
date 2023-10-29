@@ -1,9 +1,8 @@
 import json
 import os
 import numpy as np
-import sys
 import pandas as pd
-
+#%%
 TISSUES = ['skin', 'fat', 'muscle', 'ijv', 'cca']
 
 def Get_OPs_set(bound: dict, split_num: list, OP_type: str, savepath: str):
@@ -101,7 +100,7 @@ def Get_OPs_set(bound: dict, split_num: list, OP_type: str, savepath: str):
     
     
     return OPs_set_train,  OPs_set_test
-
+#%%
 if __name__ == "__main__":
     # Get Mus set
     with open(os.path.join("OPs_used", "mus_bound.json"), "r") as f:
