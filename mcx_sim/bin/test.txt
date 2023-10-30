@@ -1,4 +1,0 @@
-[31m
-MCX ERROR(-1):No GPU device found
- in unit mcextreme.c:59
-[0m

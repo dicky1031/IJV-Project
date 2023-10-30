@@ -5,7 +5,7 @@ import pandas as pd
 #%%
 TISSUES = ['skin', 'fat', 'muscle', 'ijv', 'cca']
 
-def Get_OPs_set(bound: dict, split_num: list, OP_type: str, savepath: str):
+def Get_OPs_set(bound: dict, split_num: list, OP_type: str, savepath: str):    
     """
     _summary_ : getting the optical parameter(OP) set we want to simulate,
     split to training set and testing set for the purpose of training surrogate model.
