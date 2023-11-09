@@ -241,3 +241,5 @@ result/
 pic/
 model_save/
 *.pth
+*.jdat
+*.jnii
