@@ -2,14 +2,24 @@ import os
 import shutil
 import json
 import numpy as np
+import argparse
 
-# ====================== Modify your setting here ====================== #
-result_folder = "Julie_low_scatter_v2"
-subject = "Julie"
-date = "20231012" # date of ultrasound data
-PhotonNum = 1e7
-VoxelSize = 0.25 # must be same when you create numeric model of IJV structure 
-DetectorNA = 0.22
+parser = argparse.ArgumentParser()
+parser.add_argument("-r", "--root", type=str, help="This is the result mother folder")
+parser.add_argument("-s", "--subject", type=str, help="This is the subject name")
+parser.add_argument("-d", "--date", type=str, help="date of ultrasound data")
+parser.add_argument("-n", "--PhotonNum", type=int, help="number of photon to simulate")
+parser.add_argument("-v", "--VoxelSize", type=float, help="must be same when you create numeric model of IJV structure ")
+parser.add_argument("--NA", type=float, help="This is the fiber NA you use in the experiment")
+args = parser.parse_args()
+
+# ====================== Modify your setting here / get parser ====================== #
+result_folder = args.root
+subject = args.subject
+date = args.date # date of ultrasound data
+PhotonNum = args.PhotonNum
+VoxelSize = args.VoxelSize # must be same when you create numeric model of IJV structure 
+DetectorNA = args.NA
 # ====================================================================== #
 
 # %% run

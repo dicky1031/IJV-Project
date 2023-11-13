@@ -2,6 +2,7 @@ import json
 import os
 import numpy as np
 import pandas as pd
+import argparse
 #%%
 TISSUES = ['skin', 'fat', 'muscle', 'ijv', 'cca']
 
@@ -104,11 +105,25 @@ def Get_OPs_set(bound: dict, split_num: list, OP_type: str, savepath: str):
     return OPs_set_train,  OPs_set_test
 #%%
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    # mus
+    parser.add_argument("--num_skin_mus", type=int, help="Split n points from skin_mus upper bound to lower bound")
+    parser.add_argument("--num_fat_mus", type=int, help="Split n points from fat_mus upper bound to lower bound")
+    parser.add_argument("--num_muscle_mus", type=int, help="Split n points from muscle_mus upper bound to lower bound")
+    parser.add_argument("--num_blood_mus", type=int, help="Split n points from blood_mus upper bound to lower bound")
+    # mua
+    parser.add_argument("--num_skin_mua", type=int, help="Split n points from skin_mua upper bound to lower bound")
+    parser.add_argument("--num_fat_mua", type=int, help="Split n points from fat_mua upper bound to lower bound")
+    parser.add_argument("--num_muscle_mua", type=int, help="Split n points from muscle_mua upper bound to lower bound")
+    parser.add_argument("--num_ijv_mua", type=int, help="Split n points from ijv_mua upper bound to lower bound")
+    parser.add_argument("--num_cca_mua", type=int, help="Split n points from cca_mua upper bound to lower bound")
+    args = parser.parse_args()
+    
     # Get Mus set
     with open(os.path.join("OPs_used", "mus_bound.json"), "r") as f:
         mus_bound = json.load(f)
     mus_tissues = ['skin', 'fat', 'muscle', 'ijv', 'cca']
-    split_num = [5, 5, 5, 5, 5]
+    split_num = [args.num_skin_mus, args.num_fat_mus, args.num_muscle_mus, args.num_blood_mus, args.num_blood_mus]
     savepath = 'OPs_used'
     mus_set = Get_OPs_set(bound = mus_bound, 
                           split_num = split_num, 
@@ -119,7 +134,7 @@ if __name__ == "__main__":
     with open(os.path.join("OPs_used", "mua_bound.json"), "r") as f:
         mua_bound = json.load(f)
     mua_tissues = ['skin', 'fat', 'muscle', 'ijv', 'cca']
-    split_num = [5, 5, 7, 9, 9]
+    split_num = [args.num_skin_mua, args.num_fat_mua, args.num_muscle_mua, args.num_ijv_mua, args.num_cca_mua]
     savepath = 'OPs_used'
     mua_set = Get_OPs_set(bound = mua_bound, 
                           split_num = split_num, 

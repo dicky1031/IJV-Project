@@ -5,6 +5,7 @@ import json
 import os
 from glob import glob
 from tqdm import tqdm
+import argparse
 
 #%%
 class post_processing:
@@ -142,29 +143,35 @@ class post_processing:
 
 #%%
 if __name__ == "__main__":
-    # ====================== Modify your setting here ====================== #
-    result_mother_folder = "Julie_low_scatter_v2"
-    subject = "Julie"
-    run_start_idx = 1
-    run_end_idx = 225
-    # ====================================================================== #
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-r", "--root", type=str, help="This is the result mother folder")
+    parser.add_argument("-s", "--subject", type=str, help="This is the subject name")
+    parser.add_argument("--start", type=int, help="Choice the starting number of simulation folder")    
+    parser.add_argument("--end", type=int, help="Choice the end of the simulation folder")
+    parser.add_argument("-t", "--datatype", type=str, choices=['train', 'test'], help="Choose to generate training set or testing set")
+    parser.add_argument("--ijv_type", type=str, choices=["ijv_large", "ijv_small"], help="This is the ijv structure you want to simulate")
+    args = parser.parse_args()
+    # ====================== Modify your setting here / get parser ====================== #
+    result_mother_folder = args.root
+    subject = args.subject
+    run_start_idx = args.start
+    run_end_idx = args.end
+    train_or_test = args.datatype
+    ijv_type = args.ijv_type
+    # =================================================================================== #
     
     USED_SDS = np.array([0, 1, 2, 3, 4, 5])
-    train_or_test_set = ['train', 'test']
-    ijv_type_set = ["ijv_large", "ijv_small"]
-    for train_or_test in train_or_test_set:
-        mua_set = np.load(os.path.join("OPs_used", f"mua_set_{train_or_test}.npy"))
-        mus_set = np.load(os.path.join("OPs_used", f"mus_set_{train_or_test}.npy"))
-        for ijv_type in ijv_type_set:
-            ID = os.path.join("dataset", result_mother_folder, train_or_test, f"{subject}_{ijv_type}")
-            datasetpath = f"{subject}_WMC_{ijv_type}"
-            
-            processsor = post_processing(result_mother_folder, train_or_test, ID, datasetpath, USED_SDS, mua_set, mus_set, train_or_test)
-            processsor.create_folder()
+    mua_set = np.load(os.path.join("OPs_used", f"mua_set_{train_or_test}.npy"))
+    mus_set = np.load(os.path.join("OPs_used", f"mus_set_{train_or_test}.npy"))
+    ID = os.path.join("dataset", result_mother_folder, train_or_test, f"{subject}_{ijv_type}")
+    datasetpath = f"{subject}_WMC_{ijv_type}"
+    
+    processsor = post_processing(result_mother_folder, train_or_test, ID, datasetpath, USED_SDS, mua_set, mus_set, train_or_test)
+    processsor.create_folder()
 
-            for mus_run_idx in tqdm(range(run_start_idx, run_end_idx+1)):
-                print(f"\n Now run mus_set_{mus_run_idx} idx")
-                dataset_output = processsor.WMC(mus_run_idx)
-                np.save(os.path.join("dataset", result_mother_folder, train_or_test, datasetpath,
-                        f"{result_mother_folder}_mus_{mus_run_idx}.npy"), dataset_output)
-    print("====================== Finish !! ======================")
+    for mus_run_idx in tqdm(range(run_start_idx, run_end_idx+1)):
+        print(f"\n Now run mus_set_{mus_run_idx} idx")
+        dataset_output = processsor.WMC(mus_run_idx)
+        np.save(os.path.join("dataset", result_mother_folder, train_or_test, datasetpath,
+                f"{result_mother_folder}_mus_{mus_run_idx}.npy"), dataset_output)
+    print("====================== Finish WMC!! ======================")
