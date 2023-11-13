@@ -7,6 +7,7 @@ from glob import glob
 from time import sleep
 from tqdm import tqdm
 import time
+import argparse
 
 # %% run
 class Timer():
@@ -121,30 +122,43 @@ def run_mcx(result_mother_folder: str, subject: str, mus_start: int, mus_end: in
 
 #%%
 if __name__ == "__main__":
-    # ====================== Modify your setting here ====================== #
-    result_mother_folder = "Julie_low_scatter_v2"
-    subject = "Julie"
-    ijv_type_set = ['ijv_large', 'ijv_small']
-    mus_start = 1
-    mus_end = 625
-    NA_enable = 1  # 0 not consider NA, 1 consider NA
-    NA = 0.22
-    runningNum = 0  # (Integer or False) 
-    cvThreshold = 1
-    repeatTimes = 10 # repeat n times to calculate CV
-    # ====================================================================== #
-    train_or_test_set = ['train', 'test']
-    for train_or_test in train_or_test_set:
-        for ijv_type in ijv_type_set:
-            run_mcx(result_mother_folder = result_mother_folder, 
-                    subject = subject, 
-                    mus_start = mus_start, 
-                    mus_end = mus_end, 
-                    NA_enable = NA_enable,
-                    NA = NA, 
-                    runningNum = runningNum, 
-                    cvThreshold = cvThreshold, 
-                    repeatTimes = repeatTimes, 
-                    ijv_type = ijv_type,
-                    train_or_test= train_or_test)
-    print("====================== Finish !! ======================")
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-r", "--root", type=str, help="This is the result mother folder")
+    parser.add_argument("-s", "--subject", type=str, help="This is the subject name")
+    parser.add_argument("--ijv_type", type=str, choices=["ijv_large", "ijv_small"], help="This is the ijv structure you want to simulate")
+    parser.add_argument("--start", type=int, help="Choice the starting number of simulation folder")    
+    parser.add_argument("--end", type=int, help="Choice the end of the simulation folder")
+    parser.add_argument("-T", "--cvThreshold", type=float, help="This is the stop criterion for simulation")
+    parser.add_argument("-n", "--runningNum", type=int, default=0, help="You want to run N times simulation then stop")
+    parser.add_argument("-p", "--repeatTimes", type=int, help="You want to first repeat n times then calculate CV")
+    parser.add_argument("-t", "--datatype", type=str, choices=['train', 'test'], help="Choose to generate training set or testing set")
+    parser.add_argument("--NA_enable", type=int, choices=[0, 1], help="0 not consider NA, 1 consider NA")
+    parser.add_argument("--NA", type=float, help="This is the fiber NA you use in the experiment")
+    args = parser.parse_args()
+    
+    # ====================== Modify your setting here / get parser ====================== #
+    result_mother_folder = args.root
+    subject = args.subject
+    ijv_type = args.ijv_type
+    mus_start = args.start
+    mus_end = args.end
+    NA_enable = args.NA_enable  # 0 not consider NA, 1 consider NA
+    NA = args.NA
+    runningNum = args.runningNum  # (Integer or False) 
+    cvThreshold = args.cvThreshold
+    repeatTimes = args.repeatTimes # repeat n times to calculate CV
+    train_or_test = args.datatype
+    # ==================================================================================== #
+    
+    run_mcx(result_mother_folder = result_mother_folder, 
+            subject = subject, 
+            mus_start = mus_start, 
+            mus_end = mus_end, 
+            NA_enable = NA_enable,
+            NA = NA, 
+            runningNum = runningNum, 
+            cvThreshold = cvThreshold, 
+            repeatTimes = repeatTimes, 
+            ijv_type = ijv_type,
+            train_or_test= train_or_test)
+    print("====================== Finish MCX Simulation !! ======================")
