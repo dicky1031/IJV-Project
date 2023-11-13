@@ -166,7 +166,13 @@ if __name__ == "__main__":
     ID = os.path.join("dataset", result_mother_folder, train_or_test, f"{subject}_{ijv_type}")
     datasetpath = f"{subject}_WMC_{ijv_type}"
     
-    processsor = post_processing(result_mother_folder, train_or_test, ID, datasetpath, USED_SDS, mua_set, mus_set, train_or_test)
+    processsor = post_processing(result_mother_folder=result_mother_folder,
+                                 train_or_test=train_or_test,
+                                 ID=ID,
+                                 datasetpath=datasetpath,
+                                 USED_SDS=USED_SDS,
+                                 mua_set=mua_set,
+                                 mus_set=mus_set)
     processsor.create_folder()
 
     for mus_run_idx in tqdm(range(run_start_idx, run_end_idx+1)):
