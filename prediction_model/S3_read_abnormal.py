@@ -1,8 +1,6 @@
 import os
 import numpy as np
 import pandas as pd
-import sys
-os.chdir(sys.path[0])
 
 train_SO2 = [
         0.4,

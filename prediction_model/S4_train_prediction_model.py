@@ -6,8 +6,6 @@ from myDataset import myDataset
 import time
 import json
 import os
-import sys
-os.chdir(sys.path[0])
 
 with open(os.path.join("OPs_used", "bloodConc.json"), "r") as f:
     bloodConc = json.load(f)

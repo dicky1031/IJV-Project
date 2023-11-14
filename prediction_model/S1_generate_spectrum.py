@@ -4,14 +4,12 @@ import random
 import json
 import matplotlib.pyplot as plt
 import pandas as pd
-import sys
-os.chdir(sys.path[0])
-os.makedirs("pic", exist_ok=True)
 import matplotlib as mpl
+import scienceplots
 mpl.rcParams.update(mpl.rcParamsDefault)
-plt.style.use("seaborn-darkgrid")
+plt.style.use('science')
 plt.rcParams.update({'font.size': 36})
-
+os.makedirs("pic", exist_ok=True)
 
 # function
 def calculateMus(wl, tissue, a, b):

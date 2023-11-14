@@ -6,8 +6,6 @@ import pandas as pd
 import torch
 from ANN_models import SurrogateModel
 from joblib import Parallel, delayed
-import sys
-os.chdir(sys.path[0])
 
 #%% load all we need file
 with open(os.path.join("OPs_used","mus_spectrum.json"), "r") as f:

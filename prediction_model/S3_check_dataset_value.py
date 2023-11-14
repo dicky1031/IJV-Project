@@ -1,8 +1,6 @@
 import os
 from myDataset import myDataset
 import numpy as np
-import sys
-os.chdir(sys.path[0])
 
 result_folder = "prediction_model_formula8"
 # load train dataset
