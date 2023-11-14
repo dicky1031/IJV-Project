@@ -1,24 +1,24 @@
 # ====================== Modify your setting here ====================== #
-num_skin_mus=5
-num_fat_mus=5
-num_muscle_mus=5
-num_blood_mus=5
-num_skin_mua=5
-num_fat_mua=5
-num_muscle_mua=7
-num_ijv_mua=9
-num_cca_mua=9
+num_skin_mus=5  # Split n points from skin_mus upper bound to lower bound
+num_fat_mus=5  # Split n points from fat_mus upper bound to lower bound
+num_muscle_mus=5  # Split n points from muscle_mus upper bound to lower bound
+num_blood_mus=5 # Split n points from blood_mus upper bound to lower bound
+num_skin_mua=5  # Split n points from skin_mua upper bound to lower bound
+num_fat_mua=5  # Split n points from fat_mua upper bound to lower bound
+num_muscle_mua=7  # Split n points from muscle_mua upper bound to lower bound
+num_ijv_mua=9  # Split n points from ijv_mua upper bound to lower bound
+num_cca_mua=9  # Split n points from cca_mua upper bound to lower bound
 
-root="Julie_low_scatter_v2"
-subject="Julie"
-date="20231012"
-PhotonNum=1000000000
-VoxelSize=0.25
-ijv_type_set=("ijv_large" "ijv_small")
-cvThreshold=2.5
-repeatTimes=10
-NA_enable=1
-NA=0.22
+root="Julie_low_scatter_v2"  # This is the result mother folder
+subject="Julie"  # This is the subject name
+date="20231012"  # date of ultrasound data
+PhotonNum=1000000000  # number of photon to simulate
+VoxelSize=0.25  # must be same when you create numeric model of IJV structure
+ijv_type_set=("ijv_large" "ijv_small")  # This is the ijv structure you want to simulate
+cvThreshold=2.5  # This is the stop criterion for simulation
+repeatTimes=10  # You want to first repeat n times then calculate CV
+NA_enable=1  # 0 not consider NA, 1 consider NA
+NA=0.22  # This is the fiber NA you use in the experiment
 # ====================================================================== #
 
 train_sim_start=1

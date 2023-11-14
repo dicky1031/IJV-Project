@@ -9,7 +9,7 @@ parser.add_argument("-r", "--root", type=str, help="This is the result mother fo
 parser.add_argument("-s", "--subject", type=str, help="This is the subject name")
 parser.add_argument("-d", "--date", type=str, help="date of ultrasound data")
 parser.add_argument("-n", "--PhotonNum", type=int, help="number of photon to simulate")
-parser.add_argument("-v", "--VoxelSize", type=float, help="must be same when you create numeric model of IJV structure ")
+parser.add_argument("-v", "--VoxelSize", type=float, help="must be same when you create numeric model of IJV structure")
 parser.add_argument("--NA", type=float, help="This is the fiber NA you use in the experiment")
 args = parser.parse_args()
 
