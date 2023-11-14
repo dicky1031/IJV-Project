@@ -1,20 +1,19 @@
----
-title: 'Project documentation template'
-disqus: hackmd
----
-
 How to execute MCX_sim
 ===
 
-## Table of Contents
 
-[TOC]
+[![hackmd-github-sync-badge](https://hackmd.io/ygh1d2wOSeuPGTxB9IZHEQ/badge)](https://hackmd.io/ygh1d2wOSeuPGTxB9IZHEQ)
+
+## Table of Contents
+- [Executing Experiments](#Executing-Experiments)
+- [Beginners Guide](#Beginners-Guide)
+- [Details for setting](#Details-for-setting)
 
 ## Executing Experiments
-:::info
+
 Make sure you already have /bin/MCX in this directory.
-If not, compiled from **MD703_edit_MCX_src_v2023/src** in advance.
-:::
+If not, compiled from **MD703_edit_MCX_src_v2023/src** in advance.*
+
 
 You should use **linux** environment to do the following commands.
 If you want to execute in **Windows**, you need to fix two problems carefully:
