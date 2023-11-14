@@ -3,99 +3,81 @@ from glob import glob
 import matplotlib.pyplot as plt
 import numpy as np
 import json
-import sys
+import argparse
+import scienceplots
+plt.style.use('science')
 
-result_folder = 'ctchen'
-subject = 'ctchen'
-ijv_type = 'large_to_small'
-
-folder = f"{subject}_ijv_large_to_small"
-mus_start = 1
-mus_end = 1225
-used_photon = 1e9
-SDS = ['sds_1', 'sds_15']
-CV = np.zeros((len(SDS), mus_end-mus_start+1))
-num_photons = np.zeros((mus_end-mus_start+1))
-used_mus = np.zeros((4, mus_end-mus_start+1))
-if not os.path.isdir(os.path.join("pic", folder)):
-    os.mkdir(os.path.join("pic", folder))
-topK = 50
-tissue = ['Skin', 'Muscle', 'Fat', 'IJV']
-
-if __name__ == '__main__':
-    for i in range(mus_start, mus_end+1):
-        model_path = os.path.join(
-            folder, "LUT", f"run_{i}", "model_parameters.json")
-        with open(model_path, 'r') as f:
-            model = json.load(f)
-        used_mus[0, i-1] = model['OptParam']['Skin']['mus']
-        used_mus[1, i-1] = model['OptParam']['Muscle']['mus']
-        used_mus[2, i-1] = model['OptParam']['Fat']['mus']
-        used_mus[3, i-1] = model['OptParam']['IJV']['mus']
-
-        path = os.path.join(
-            folder, "LUT", f"run_{i}", "post_analysis", f"run_{i}_simulation_result.json")
-        num = len(
-            glob(os.path.join(folder, "LUT", f"run_{i}", "mcx_output", "*")))
-        with open(path, 'r') as f:
+def GetCV(folder: str, run_start_idx: int, run_end_idx: int) -> (dict,list,list):
+    # initial CV_set for saving
+    filepath = os.path.join(folder, f"run_{run_start_idx}", "post_analysis", f"run_{run_start_idx}_simulation_result.json")
+    with open(filepath, 'r') as f:
+        data = json.load(f)
+    GroupingSampleCV = data["GroupingSampleCV"]
+    AnalyzedSampleNum = data["AnalyzedSampleNum"]
+    CV_set = {}
+    for using_SDS in GroupingSampleCV.keys():
+        CV_set[using_SDS] = []
+    SDS_used = list(GroupingSampleCV.keys())
+    
+    # initial used_total_photon  for saving
+    used_total_photon = []
+    
+    # for each folder get the CV results then save with different SDS
+    for i in range(run_start_idx, run_end_idx+1):
+        filepath = os.path.join(folder, f"run_{i}", "post_analysis", f"run_{i}_simulation_result.json")
+        with open(filepath, 'r') as f:
             data = json.load(f)
-        num_photons[i-1] = used_photon*num
-        for s_idx, s in enumerate(SDS):
-            CV[s_idx][i-1] = data['GroupingSampleCV'][s]/(num**0.5)
+        GroupingSampleCV = data["GroupingSampleCV"]
+        AnalyzedSampleNum = data["AnalyzedSampleNum"]
+        SimBasedPhotonNum = float(data["PhotonNum"]["RawSample"])
+        
+        # save CV results
+        for using_SDS in GroupingSampleCV.keys():
+            using_CV = GroupingSampleCV[using_SDS]
+            predicted_CV = using_CV/(AnalyzedSampleNum**0.5)
+            CV_set[using_SDS].append(predicted_CV)
+        
+        # save total photon used
+        used_total_photon = AnalyzedSampleNum*SimBasedPhotonNum
+    
+    return CV_set, SDS_used, used_total_photon
 
-    plt.figure(figsize=(16, 8))
-    plt.plot(CV[0], 'g', label='SDS : 10mm')
-    plt.plot(CV[1], 'r', label='SDS : 20mm')
-    plt.legend()
-    plt.xlabel("simulation set")
-    plt.ylabel("CV(%)")
-    plt.title("CV analysis for each simulation")
-    plt.savefig(os.path.join("pic", folder, "sim_CV_analysis.png"))
-    plt.show()
-
-    plt.figure(figsize=(16, 8))
-    plt.plot(num_photons)
-    plt.xlabel("simulation set")
-    plt.ylabel("used photons")
-    plt.title("used photons for each simulation")
-    plt.savefig(os.path.join("pic", folder, "sim_photons_num.png"))
-    plt.show()
-
-    min_mus = used_mus.min(axis=1).reshape(1, 4)
-    min_mus = 1/min_mus
-    total_influence = (np.dot(min_mus, used_mus)/4).reshape(-1)
-
-    sort_idx = np.argsort(num_photons)[-topK:]
-    sort_idx = np.flip(sort_idx)
-    num_photons = num_photons[sort_idx]
-    used_mus = used_mus[:, sort_idx]
-    total_influence = total_influence[sort_idx]
-
-    fig = plt.figure()
-    fig.suptitle('Analysis Each Parameter influence')
-    for i in range(4):
-        subax = fig.add_subplot(2, 2, i+1)
-        plt.xlabel('simulation set')
-        subax.plot(num_photons, label='photons')
-        subax.set_ylabel('used photons', color='b')
-        # subax.plot(used_mus[i,:], label = f'{tissue[i]}')
-        # subax.legend()
-        subax2 = subax.twinx()
-        subax2.plot(used_mus[i, :], 'g', label=f'{tissue[i]}')
-        subax2.set_ylabel(f'{tissue[i]} $\mu_s$($mm^{-1}$)', color='g')
-    plt.tight_layout()
-    plt.savefig(os.path.join("pic", folder, "tissue_influence_analysis.png"))
-    plt.show()
-
-    fig = plt.figure()
-    ax = fig.add_subplot(111)
-    plt.title("Total parameter influence analysis")
-    plt.xlabel(f'simulation top {topK} set')
-    ax.plot(num_photons, label='photons')
-    ax.set_ylabel('used photons', color='b')
-    ax2 = ax.twinx()
-    ax2.plot(total_influence, 'g')
-    ax2.set_ylabel('total parameters ratio', color='g')
-    plt.tight_layout()
-    plt.savefig(os.path.join("pic", folder, "total_influence_analysis.png"))
-    plt.show()
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-r", "--root", type=str, help="This is the result mother folder")
+    parser.add_argument("-s", "--subject", type=str, help="This is the subject name")
+    parser.add_argument("--start", type=int, help="Choice the starting number of simulation folder")    
+    parser.add_argument("--end", type=int, help="Choice the end of the simulation folder")
+    parser.add_argument("-t", "--datatype", type=str, choices=['train', 'test'], help="Choose to generate training set or testing set")
+    parser.add_argument("--ijv_type", type=str, choices=["ijv_large", "ijv_small"], help="This is the ijv structure you want to simulate")
+    args = parser.parse_args()
+    # ====================== Modify your setting here / get parser ====================== #
+    result_mother_folder = args.root
+    subject = args.subject
+    run_start_idx = args.start
+    run_end_idx = args.end
+    train_or_test = args.datatype
+    ijv_type = args.ijv_type
+    # =================================================================================== #
+    
+    folder = os.path.join("dataset", result_mother_folder, train_or_test, f"{subject}_{ijv_type}")
+    CV_set, SDS_used, used_total_photon = GetCV(folder, run_start_idx, run_end_idx)     
+    
+    os.makedirs(os.path.join("pic", result_mother_folder, train_or_test, f"{subject}_{ijv_type}"), exist_ok=True)
+    # plot CV results
+    for using_SDS in SDS_used:
+        plt.figure()
+        plt.title(f'{using_SDS}')
+        plt.scatter([i for i in range(run_start_idx, run_end_idx+1)], CV_set[using_SDS])
+        plt.xlabel("MCX sim order")
+        plt.ylabel("CV(\%)")
+        plt.savefig(os.path.join("pic", result_mother_folder, train_or_test, f"{subject}_{ijv_type}", f"{using_SDS}.png"), dpi=300, format='png', bbox_inches='tight')
+        plt.close()
+    
+    # plot used photon results
+    plt.figure()
+    plt.scatter([i for i in range(run_start_idx, run_end_idx+1)], used_total_photon)
+    plt.xlabel("MCX sim order")
+    plt.ylabel("Number Photons")
+    plt.savefig(os.path.join("pic", result_mother_folder, train_or_test, f"{subject}_{ijv_type}", f"total_photons.png"), dpi=300, format='png', bbox_inches='tight')
+    plt.close()

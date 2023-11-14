@@ -137,17 +137,17 @@ if __name__ == "__main__":
     args = parser.parse_args()
     
     # ====================== Modify your setting here / get parser ====================== #
-    result_mother_folder = args.root
-    subject = args.subject
-    ijv_type = args.ijv_type
-    mus_start = args.start
-    mus_end = args.end
-    NA_enable = args.NA_enable  # 0 not consider NA, 1 consider NA
-    NA = args.NA
-    runningNum = args.runningNum  # (Integer or False) 
-    cvThreshold = args.cvThreshold
-    repeatTimes = args.repeatTimes # repeat n times to calculate CV
-    train_or_test = args.datatype
+    result_mother_folder = "Julie_low_scatter_v2"
+    subject = "Julie"
+    ijv_type = "ijv_large"
+    mus_start = 1
+    mus_end = 1
+    NA_enable = 1  # 0 not consider NA, 1 consider NA
+    NA = 0.22
+    runningNum = 0  # (Integer or False) 
+    cvThreshold = 100
+    repeatTimes = 10 # repeat n times to calculate CV
+    train_or_test = "train"
     # ==================================================================================== #
     
     run_mcx(result_mother_folder = result_mother_folder, 
