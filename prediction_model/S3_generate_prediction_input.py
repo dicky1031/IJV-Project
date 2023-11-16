@@ -22,8 +22,8 @@ def gen_prediction_input(id : int, blc : int, train_or_test: str, SO2_used : lis
     #     print(f'now processing {train_or_test}_{id}...')
     #     for blc in bloodConc:
     print(f'now processing {train_or_test}_{id}...')
-    # prediction_input = np.zeros((len(SO2_used),2*len(wavelength)*len(wavelength)+5)) # T1_large_SDS1/SDS2 T1_small_SDS1/SDS2 T2_large_SDS1/SDS2 T2_small_SDS1/SDS2 bloodConc ans id
-    prediction_input = np.zeros((len(SO2_used),40+5))
+    prediction_input = np.zeros((len(SO2_used),2*len(wavelength)*len(wavelength)+5)) # T1_large_SDS1/SDS2 T1_small_SDS1/SDS2 T2_large_SDS1/SDS2 T2_small_SDS1/SDS2 bloodConc ans id
+    # prediction_input = np.zeros((len(SO2_used),40+5))
     for i, s in enumerate(SO2_used):
         surrogate_result_T1 = pd.read_csv(os.path.join("dataset", "surrogate_result", subject, train_or_test, 
                                                     f'bloodConc_{blc}', 'SO2_0.7', f'{id}_{train_or_test}.csv'))
@@ -41,40 +41,40 @@ def gen_prediction_input(id : int, blc : int, train_or_test: str, SO2_used : lis
             SDS2_delta_logRmaxRmin = np.log((surrogate_result_T2['smallIJV_SDS2'].to_numpy() / surrogate_result_T2['largeIJV_SDS2'].to_numpy())) - np.log((surrogate_result_T1['smallIJV_SDS2'].to_numpy() / surrogate_result_T1['largeIJV_SDS2'].to_numpy()))
             prediction_input[i][:20] = SDS1_delta_logRmaxRmin
             prediction_input[i][20:40] = SDS2_delta_logRmaxRmin
-            # for wl_idx in range(len(wavelength)):
-            #     T2_large_SDS2 = surrogate_result_T2['largeIJV_SDS2'].to_numpy()
-            #     T2_large_SDS1 = surrogate_result_T2['largeIJV_SDS1'][wl_idx]
-            #     T1_large_SDS2 = surrogate_result_T1['largeIJV_SDS2'].to_numpy()
-            #     T1_large_SDS1 = surrogate_result_T1['largeIJV_SDS1'][wl_idx]
+            for wl_idx in range(len(wavelength)):
+                T2_large_SDS2 = surrogate_result_T2['largeIJV_SDS2'].to_numpy()
+                T2_large_SDS1 = surrogate_result_T2['largeIJV_SDS1'][wl_idx]
+                T1_large_SDS2 = surrogate_result_T1['largeIJV_SDS2'].to_numpy()
+                T1_large_SDS1 = surrogate_result_T1['largeIJV_SDS1'][wl_idx]
 
-            #     T2_small_SDS2 = surrogate_result_T2['smallIJV_SDS2'].to_numpy()
-            #     T2_small_SDS1 = surrogate_result_T2['smallIJV_SDS1'][wl_idx]
-            #     T1_small_SDS2 = surrogate_result_T1['smallIJV_SDS2'].to_numpy()
-            #     T1_small_SDS1 = surrogate_result_T1['smallIJV_SDS1'][wl_idx]
+                T2_small_SDS2 = surrogate_result_T2['smallIJV_SDS2'].to_numpy()
+                T2_small_SDS1 = surrogate_result_T2['smallIJV_SDS1'][wl_idx]
+                T1_small_SDS2 = surrogate_result_T1['smallIJV_SDS2'].to_numpy()
+                T1_small_SDS1 = surrogate_result_T1['smallIJV_SDS1'][wl_idx]
                 
-            #     # normalize with spec mean
-            #     T2_large = T2_large_SDS2/T2_large_SDS1
-            #     # T2_large = (T2_large - T2_large.mean()) / (T2_large.max() - T2_large.min())
-            #     T1_large = T1_large_SDS2/T1_large_SDS1
-            #     # T1_large = (T1_large - T1_large.mean()) / (T1_large.max() - T1_large.min())
-            #     R_large = T1_large/T2_large
-            #     R_large = (R_large - R_large.min() + 1e-9) / (R_large.max() - R_large.min() + 1e-9)
-            #     prediction_input[i][wl_idx*20 : wl_idx*20+20] = np.log(R_large)
+                # normalize with spec mean
+                T2_large = T2_large_SDS2/T2_large_SDS1
+                # T2_large = (T2_large - T2_large.mean()) / (T2_large.max() - T2_large.min())
+                T1_large = T1_large_SDS2/T1_large_SDS1
+                # T1_large = (T1_large - T1_large.mean()) / (T1_large.max() - T1_large.min())
+                R_large = T1_large/T2_large
+                R_large = (R_large - R_large.min() + 1e-9) / (R_large.max() - R_large.min() + 1e-9)
+                prediction_input[i][wl_idx*20 : wl_idx*20+20] = np.log(R_large)
                 
-            #     T2_small = T2_small_SDS2/T2_small_SDS1
-            #     # T2_small = (T2_small - T2_small.mean()) / (T2_small.max() - T2_small.min())
-            #     T1_small = T1_small_SDS2/T1_small_SDS1
-            #     # T1_small = (T1_small - T1_small.mean()) / (T1_small.max() - T1_small.min())
-            #     R_small = T1_small/T2_small
-            #     R_small = (R_small - R_small.min() + 1e-9) / (R_small.max() - R_small.min() + 1e-9)
-            #     prediction_input[i][400+wl_idx*20 : 400+wl_idx*20+20] = np.log(R_small)
+                T2_small = T2_small_SDS2/T2_small_SDS1
+                # T2_small = (T2_small - T2_small.mean()) / (T2_small.max() - T2_small.min())
+                T1_small = T1_small_SDS2/T1_small_SDS1
+                # T1_small = (T1_small - T1_small.mean()) / (T1_small.max() - T1_small.min())
+                R_small = T1_small/T2_small
+                R_small = (R_small - R_small.min() + 1e-9) / (R_small.max() - R_small.min() + 1e-9)
+                prediction_input[i][400+wl_idx*20 : 400+wl_idx*20+20] = np.log(R_small)
             
                 
-            prediction_input[i][40] = blc
-            prediction_input[i][41] = s - 0.7 # answer
-            prediction_input[i][42] = id # for analyzing used
-            prediction_input[i][43] = -1 # mua_rank
-            prediction_input[i][44] = -1 # muscle_SO2
+            prediction_input[i][800] = blc
+            prediction_input[i][801] = s - 0.7 # answer
+            prediction_input[i][802] = id # for analyzing used
+            prediction_input[i][803] = -1 # mua_rank
+            prediction_input[i][804] = -1 # muscle_SO2
 
     # filter abnormal
     non_zero_ridx = np.where(prediction_input==0, 0, 1).sum(axis=1)
