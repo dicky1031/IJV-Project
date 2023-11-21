@@ -44,6 +44,19 @@ https://hackmd.io/@73X8klpNRmSsdgJzudHbgA/Byo9D2iCO?fbclid=IwAR11h4vS-rScHVwF4zT
 [How we execute MCX]:
 1. we use **mcx_ultrasound_opsbased.py** to access the executive file which is compiled from the source code
 
+## MCX forum 
+This is the google group of MCX.  
+There are lots of conversation and discussion about utilization of MCX.  
+https://groups.google.com/g/mcx-users
+
+## TODO
+1. To apply different NA on different SDS. https://github.com/ShawnSun1031/IJV-Project/blob/main/mcx_sim/S3_run_sim.py#L146
+https://github.com/ShawnSun1031/IJV-Project/blob/main/mcx_sim/mcx_ultrasound_opsbased.py#L419
+2. Create functions to access the MCX simulation results.  
+Function list (reference as ma):  
+https://github.com/fangq/mcx/blob/master/utils/mcxmeanpath.m
+https://github.com/fangq/mcx/blob/master/utils/mcxmeanscat.m
+
 
 
 ###### tags: `MCX` `Documentation`

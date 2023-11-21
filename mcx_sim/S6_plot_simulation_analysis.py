@@ -52,12 +52,12 @@ if __name__ == "__main__":
     parser.add_argument("--ijv_type", type=str, choices=["ijv_large", "ijv_small"], help="This is the ijv structure you want to simulate")
     args = parser.parse_args()
     # ====================== Modify your setting here / get parser ====================== #
-    result_mother_folder = args.root
-    subject = args.subject
-    run_start_idx = args.start
-    run_end_idx = args.end
-    train_or_test = args.datatype
-    ijv_type = args.ijv_type
+    result_mother_folder = "Julie_low_scatter_v2"
+    subject = "Julie"
+    run_start_idx = 1
+    run_end_idx = 1
+    train_or_test = "train"
+    ijv_type = "ijv_large"
     # =================================================================================== #
     
     folder = os.path.join("dataset", result_mother_folder, train_or_test, f"{subject}_{ijv_type}")
