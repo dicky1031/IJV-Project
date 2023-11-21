@@ -60,28 +60,28 @@ echo "Considering NA or not: $NA_enable"
 echo "If considering NA, the fiber NA is: $NA"
 
 for ijv_type in "${ijv_type_set[@]}"; do
-# python S3_run_sim.py --root $root --subject $subject --ijv_type $ijv_type --start $train_sim_start --end $train_sim_end --cvThreshold $cvThreshold --repeatTimes $repeatTimes --datatype train --NA_enable $NA_enable --NA $NA
+python S3_run_sim.py --root $root --subject $subject --ijv_type $ijv_type --start $train_sim_start --end $train_sim_end --cvThreshold $cvThreshold --repeatTimes $repeatTimes --datatype train --NA_enable $NA_enable --NA $NA
 python S3_run_sim.py --root $root --subject $subject --ijv_type $ijv_type --start $test_sim_start --end $test_sim_end --cvThreshold $cvThreshold --repeatTimes $repeatTimes --datatype test --NA_enable $NA_enable --NA $NA
 done
 echo "################################### finish S3 ################################################"
 
-# echo "################################### run S4 WMC ################################################"
-# for ijv_type in "${ijv_type_set[@]}"; do
-# python S4_wmc_generate_dataset.py --root $root --subject $subject --start $train_sim_start --end $train_sim_end --datatype train --ijv_type $ijv_type
-# python S4_wmc_generate_dataset.py --root $root --subject $subject --start $test_sim_start --end $test_sim_end --datatype test --ijv_type $ijv_type
+echo "################################### run S4 WMC ################################################"
+for ijv_type in "${ijv_type_set[@]}"; do
+python S4_wmc_generate_dataset.py --root $root --subject $subject --start $train_sim_start --end $train_sim_end --datatype train --ijv_type $ijv_type
+python S4_wmc_generate_dataset.py --root $root --subject $subject --start $test_sim_start --end $test_sim_end --datatype test --ijv_type $ijv_type
 
-# echo "################################### finish S4 ################################################"
+echo "################################### finish S4 ################################################"
 
-# echo "################################### run S5 checking missing files ################################################"
-# for ijv_type in "${ijv_type_set[@]}"; do
-# python S5_check_sim_WMC_result.py --root $root --subject $subject --start $train_sim_start --end $train_sim_end --datatype train --ijv_type $ijv_type
-# python S5_check_sim_WMC_result.py --root $root --subject $subject --start $test_sim_start --end $test_sim_end --datatype test --ijv_type $ijv_type
+echo "################################### run S5 checking missing files ################################################"
+for ijv_type in "${ijv_type_set[@]}"; do
+python S5_check_sim_WMC_result.py --root $root --subject $subject --start $train_sim_start --end $train_sim_end --datatype train --ijv_type $ijv_type
+python S5_check_sim_WMC_result.py --root $root --subject $subject --start $test_sim_start --end $test_sim_end --datatype test --ijv_type $ijv_type
 
-# echo "################################### finish S5 ################################################"
+echo "################################### finish S5 ################################################"
 
-# echo "################################### run S6 plot CV and using photons ################################################"
-# for ijv_type in "${ijv_type_set[@]}"; do
-# python S6_plot_simulation_analysis.py --root $root --subject $subject --start $train_sim_start --end $train_sim_end --datatype train --ijv_type $ijv_type
-# python S6_plot_simulation_analysis.py --root $root --subject $subject --start $test_sim_start --end $test_sim_end --datatype test --ijv_type $ijv_type
+echo "################################### run S6 plot CV and using photons ################################################"
+for ijv_type in "${ijv_type_set[@]}"; do
+python S6_plot_simulation_analysis.py --root $root --subject $subject --start $train_sim_start --end $train_sim_end --datatype train --ijv_type $ijv_type
+python S6_plot_simulation_analysis.py --root $root --subject $subject --start $test_sim_start --end $test_sim_end --datatype test --ijv_type $ijv_type
 
-# echo "################################### finish S6 ################################################"
+echo "################################### finish S6 ################################################"
