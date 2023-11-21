@@ -54,7 +54,7 @@ https://groups.google.com/g/mcx-users
 https://github.com/ShawnSun1031/IJV-Project/blob/main/mcx_sim/mcx_ultrasound_opsbased.py#L419
 2. Create functions to access the MCX simulation results.  
 Function list (reference as ma):  
-https://github.com/fangq/mcx/blob/master/utils/mcxmeanpath.m
+https://github.com/fangq/mcx/blob/master/utils/mcxmeanpath.m  
 https://github.com/fangq/mcx/blob/master/utils/mcxmeanscat.m
 
 
