@@ -50,7 +50,8 @@ There are lots of conversation and discussion about utilization of MCX.
 https://groups.google.com/g/mcx-users
 
 ## TODO
-1. To apply different NA on different SDS. https://github.com/ShawnSun1031/IJV-Project/blob/main/mcx_sim/S3_run_sim.py#L146
+1. To apply different NA on different SDS.  
+https://github.com/ShawnSun1031/IJV-Project/blob/main/mcx_sim/S3_run_sim.py#L146  
 https://github.com/ShawnSun1031/IJV-Project/blob/main/mcx_sim/mcx_ultrasound_opsbased.py#L419
 2. Create functions to access the MCX simulation results.  
 Function list (reference as ma):  
