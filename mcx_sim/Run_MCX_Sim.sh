@@ -69,19 +69,19 @@ echo "################################### run S4 WMC ###########################
 for ijv_type in "${ijv_type_set[@]}"; do
 python S4_wmc_generate_dataset.py --root $root --subject $subject --start $train_sim_start --end $train_sim_end --datatype train --ijv_type $ijv_type
 python S4_wmc_generate_dataset.py --root $root --subject $subject --start $test_sim_start --end $test_sim_end --datatype test --ijv_type $ijv_type
-
+done
 echo "################################### finish S4 ################################################"
 
 echo "################################### run S5 checking missing files ################################################"
 for ijv_type in "${ijv_type_set[@]}"; do
 python S5_check_sim_WMC_result.py --root $root --subject $subject --start $train_sim_start --end $train_sim_end --datatype train --ijv_type $ijv_type
 python S5_check_sim_WMC_result.py --root $root --subject $subject --start $test_sim_start --end $test_sim_end --datatype test --ijv_type $ijv_type
-
+done
 echo "################################### finish S5 ################################################"
 
 echo "################################### run S6 plot CV and using photons ################################################"
 for ijv_type in "${ijv_type_set[@]}"; do
 python S6_plot_simulation_analysis.py --root $root --subject $subject --start $train_sim_start --end $train_sim_end --datatype train --ijv_type $ijv_type
 python S6_plot_simulation_analysis.py --root $root --subject $subject --start $test_sim_start --end $test_sim_end --datatype test --ijv_type $ijv_type
-
+done
 echo "################################### finish S6 ################################################"
