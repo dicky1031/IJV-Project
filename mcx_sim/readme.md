@@ -49,11 +49,23 @@ This is the google group of MCX.
 There are lots of conversation and discussion about utilization of MCX.  
 https://groups.google.com/g/mcx-users
 
+## MCX cloud 
+When you run **S3_run_sim.py**, it will generate a file called **input_run_<#>_forpreview.json**. Copy the content and paste in the MCX cloud to view the structure you designed.
+
+- Find the **input_run_<#>_forpreview.json** in **run_<#>/json_output/**
+![image](https://hackmd.io/_uploads/SJnRGw2ST.png)
+- Copy the content
+- Open the MCX cloud website: https://mcx.space/cloud/# and click the JSON bottom. ![image](https://hackmd.io/_uploads/rJWomDnB6.png)
+- Paste your content here ![image](https://hackmd.io/_uploads/BydGNDhHT.png)
+- Change to Preview and have fun! ![image](https://hackmd.io/_uploads/rytjVP2rT.png)
+
+
+
 ## TODO
-1. To apply different NA on different SDS.  
+- [ ] 1. To apply different NA on different SDS.  
 https://github.com/ShawnSun1031/IJV-Project/blob/main/mcx_sim/S3_run_sim.py#L146  
 https://github.com/ShawnSun1031/IJV-Project/blob/main/mcx_sim/mcx_ultrasound_opsbased.py#L419
-2. Create functions to access the MCX simulation results.  
+- [ ] 2. Create functions to access the MCX simulation results.  
 Function list (reference as ma):  
 https://github.com/fangq/mcx/blob/master/utils/mcxmeanpath.m  
 https://github.com/fangq/mcx/blob/master/utils/mcxmeanscat.m
