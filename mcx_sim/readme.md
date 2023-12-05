@@ -50,7 +50,7 @@ There are lots of conversation and discussion about utilization of MCX.
 https://groups.google.com/g/mcx-users
 
 ## MCX cloud 
-When you run **S3_run_sim.py**, it will generate a file called **input_run_<#>_forpreview.json**. Copy the content and paste in the MCX cloud to view the structure you designed.
+When you run **S3_run_sim.py**, it will generate a file called **input_run_<#>_forpreview.json**. Copy the content and paste it in the MCX cloud to view the structure you designed.
 
 - Find the **input_run_<#>_forpreview.json** in **run_<#>/json_output/**
 ![image](https://hackmd.io/_uploads/SJnRGw2ST.png)
