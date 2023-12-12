@@ -12,12 +12,12 @@ mpl.rcParams.update(mpl.rcParamsDefault)
 plt.style.use("seaborn-darkgrid")
 
 class process_raw_data():
-    def __init__(self, baseline_start, baseline_end, HP_start, HP_end, recovery_start, recovery_end,
+    def __init__(self, baseline_start, baseline_end, exp_start, exp_end, recovery_start, recovery_end,
                  time_resolution, time_interval,mother_folder_name, using_SDS) -> None:
         self.baseline_start = baseline_start
         self.baseline_end = baseline_end
-        self.HP_start = HP_start
-        self.HP_end = HP_end
+        self.exp_start = exp_start
+        self.exp_end = exp_end
         self.recovery_start = recovery_start
         self.recovery_end = recovery_end
         self.time_resolution = time_resolution
@@ -178,15 +178,15 @@ class process_raw_data():
         # time_mean_arr : Nx --> wavelength
         # used_wl_bandwidth --> nm the range want to average
         resolution = used_wl[1] - used_wl[0]
-        average_points = int(used_wl_bandwidth/resolution)
+        half_average_points = int(0.5*used_wl_bandwidth/resolution)
         moving_avg_I = []
         moving_avg_wl = []
-        for i in range(time_mean_arr.shape[0]-average_points):
-            moving_avg_I += [time_mean_arr[i:i+average_points].mean()]
-            if average_points % 2 == 1: # odd 
-                moving_avg_wl += [used_wl[i+average_points//2]]
+        for i in range(half_average_points, time_mean_arr.shape[0]-half_average_points):
+            moving_avg_I += [time_mean_arr[i-half_average_points:i+half_average_points].mean()]
+            if (2*half_average_points) % 2 == 1: # odd 
+                moving_avg_wl += [used_wl[i+(2*half_average_points)//2]]
             else: # even
-                even = (used_wl[i+average_points//2] + used_wl[i+average_points//2-1]) * 0.5
+                even = (used_wl[i+(2*half_average_points)//2] + used_wl[i+(2*half_average_points)//2-1]) * 0.5
                 moving_avg_wl += [even]
         
         return np.array(moving_avg_I), np.array(moving_avg_wl)
@@ -399,8 +399,8 @@ class process_raw_data():
         self.plot_mean_time_spectrum(data=data,
                             wavelength=wavelength,
                             name=name,
-                            start_time=self.HP_start,
-                            end_time=self.HP_end,
+                            start_time=self.exp_start,
+                            end_time=self.exp_end,
                             is_show=is_show)
 
         self.plot_mean_time_spectrum(data=data,
