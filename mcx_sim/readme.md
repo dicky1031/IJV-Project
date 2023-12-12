@@ -8,6 +8,9 @@ How to execute MCX_sim
 - [Executing Experiments](#Executing-Experiments)
 - [Beginners Guide](#Beginners-Guide)
 - [Details for setting](#Details-for-setting)
+- [MCX forum](#MCX-forum)
+- [MCX cloud](#MCX-cloud)
+- [TODO](#TODO)
 
 ## Executing Experiments
 
@@ -59,13 +62,16 @@ When you run **S3_run_sim.py**, it will generate a file called **input_run_<#>_f
 - Paste your content here ![image](https://hackmd.io/_uploads/BydGNDhHT.png)
 - Change to Preview and have fun! ![image](https://hackmd.io/_uploads/rytjVP2rT.png)
 
+## Analyze the output file from MCX
+Please look at [utils.py](https://github.com/ShawnSun1031/IJV-Project/blob/main/mcx_sim/utils.py) to get the comprehension about how to analyze the output file from MCX such as pathlength, scattering count, diffuse reflectance and so on.
 
 
 ## TODO
-- [ ] 1. To apply different NA on different SDS.  
+- [ ] 1. Write an example code for how to use [utils.py](https://github.com/ShawnSun1031/IJV-Project/blob/main/mcx_sim/utils.py)  
+- [ ] 2. To apply different NA on different SDS.  
 https://github.com/ShawnSun1031/IJV-Project/blob/main/mcx_sim/S3_run_sim.py#L146  
 https://github.com/ShawnSun1031/IJV-Project/blob/main/mcx_sim/mcx_ultrasound_opsbased.py#L419
-- [ ] 2. Create functions to access the MCX simulation results.  
+- [x] 3. Create functions to access the MCX simulation results.  
 Function list (reference as ma):  
 https://github.com/fangq/mcx/blob/master/utils/mcxmeanpath.m  
 https://github.com/fangq/mcx/blob/master/utils/mcxmeanscat.m
