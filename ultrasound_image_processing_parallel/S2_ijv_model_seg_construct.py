@@ -37,7 +37,7 @@ def make_volume(subject, date, state, voxelLength):
     # model and air (in the beginning)
     vol = np.ones((int(modelX), int(modelY), int(modelZ)))
     # source
-    angle = 10
+    angle = 9
     center_x = int(modelX//2)
     center_y = int(modelY//2)
     
@@ -45,7 +45,10 @@ def make_volume(subject, date, state, voxelLength):
     source_y = list(range(int(modelY//2-srcHolderY//2),int(modelY//2+srcHolderY//2)))
     rot_source_x, rot_source_y = rotate(source_x, source_y, center_x, center_y, angle=angle)
     for xx, yy in zip(rot_source_x, rot_source_y):
-        vol[xx,yy,:int(detHolderZ)] = 2  # first holder
+        xx_ceil, yy_ceil = math.ceil(xx), math.ceil(yy)
+        xx_floor, yy_floor = math.floor(xx), math.floor(yy)
+        vol[xx_ceil,yy_ceil,:int(detHolderZ)] = 2  # holder
+        vol[xx_floor,yy_floor,:int(detHolderZ)] = 2  # holder
     
     for x in range(int(modelX//2)-int(np.ceil(irraWinRadius)), int(modelX//2)+int(np.ceil(irraWinRadius))):
         for y in range(int(modelY//2)-int(np.ceil(irraWinRadius)), int(modelY//2)+int(np.ceil(irraWinRadius))):
@@ -64,37 +67,55 @@ def make_volume(subject, date, state, voxelLength):
     firts_holder_y = list(range(int(modelY//2-detHolderY//2),int(modelY//2+detHolderY//2)))
     rot_firts_holder_x, rot_firts_holder_y = rotate(firts_holder_x, firts_holder_y, center_x, center_y, angle=angle)
     for xx, yy in zip(rot_firts_holder_x, rot_firts_holder_y):
-        vol[xx,yy,:int(detHolderZ)] = 2  # first holder
+        xx_ceil, yy_ceil = math.ceil(xx), math.ceil(yy)
+        xx_floor, yy_floor = math.floor(xx), math.floor(yy)
+        vol[xx_ceil,yy_ceil,:int(detHolderZ)] = 2  # first holder
+        vol[xx_floor,yy_floor,:int(detHolderZ)] = 2  # first holder
     
     second_holder_x = list(range(int(modelX//2-srcHolderX//2-detHolderX),int(modelX//2-srcHolderX//2)))
     second_holder_y = list(range(int(modelY//2-detHolderY//2),int(modelY//2+detHolderY//2)))
     rot_second_holder_x, rot_second_holder_y = rotate(second_holder_x, second_holder_y, center_x, center_y, angle=angle)
     for xx, yy in zip(rot_second_holder_x, rot_second_holder_y):
-        vol[xx,yy,:int(detHolderZ)] = 2  # second holder
+        xx_ceil, yy_ceil = math.ceil(xx), math.ceil(yy)
+        xx_floor, yy_floor = math.floor(xx), math.floor(yy)
+        vol[xx_ceil,yy_ceil,:int(detHolderZ)] = 2  # second holder
+        vol[xx_floor,yy_floor,:int(detHolderZ)] = 2  # second holder
     
     first_prism_x = list(range(int(modelX//2+srcHolderX//2),int(modelX//2+srcHolderX//2+detHolderX)))
     first_prism_y = list(range(int(modelY//2-prismY//2),int(modelY//2+prismY//2)))
     rot_first_prism_x, rot_first_prism_y = rotate(first_prism_x, first_prism_y, center_x, center_y, angle=angle)
-    for xx, yy in zip(rot_first_prism_x, rot_first_prism_y):
-        vol[xx,yy,int(detHolderZ-prismZ):int(detHolderZ)] = 3  # first prism
+    for xx, yy in zip(rot_first_prism_x, rot_first_prism_y): 
+        xx_ceil, yy_ceil = math.ceil(xx), math.ceil(yy)
+        xx_floor, yy_floor = math.floor(xx), math.floor(yy)
+        vol[xx_ceil,yy_ceil,int(detHolderZ-prismZ):int(detHolderZ)] = 3  # first prism
+        vol[xx_floor,yy_floor,int(detHolderZ-prismZ):int(detHolderZ)] = 3  # first prism
         
     second_prism_x = list(range(int(modelX//2-srcHolderX//2-detHolderX),int(modelX//2-srcHolderX//2)))
     second_prism_y = list(range(int(modelY//2-prismY//2),int(modelY//2+prismY//2)))
     rot_second_prism_x, rot_second_prism_y = rotate(second_prism_x, second_prism_y, center_x, center_y, angle=angle)
     for xx, yy in zip(rot_second_prism_x, rot_second_prism_y):
-        vol[xx,yy,int(detHolderZ-prismZ):int(detHolderZ)] = 3  # second prism
+        xx_ceil, yy_ceil = math.ceil(xx), math.ceil(yy)
+        xx_floor, yy_floor = math.floor(xx), math.floor(yy)
+        vol[xx_ceil,yy_ceil,int(detHolderZ-prismZ):int(detHolderZ)] = 3  # second prism
+        vol[xx_floor,yy_floor,int(detHolderZ-prismZ):int(detHolderZ)] = 3  # second prism
     
     first_fiber_x = list(range(int(modelX//2+srcHolderX//2),int(modelX//2+srcHolderX//2+detHolderX)))
     first_fiber_y = list(range(int(modelY//2-prismY//2),int(modelY//2+prismY//2)))
     rot_first_fiber_x, rot_first_fiber_y = rotate(first_fiber_x, first_fiber_y, center_x, center_y, angle=angle)
     for xx, yy in zip(rot_first_fiber_x, rot_first_fiber_y):
-        vol[xx,yy,:int(detHolderZ-prismZ)] = 0  # first fiber
+        xx_ceil, yy_ceil = math.ceil(xx), math.ceil(yy)
+        xx_floor, yy_floor = math.floor(xx), math.floor(yy)
+        vol[xx_ceil,yy_ceil,:int(detHolderZ-prismZ)] = 0  # first fiber
+        vol[xx_floor,yy_floor,:int(detHolderZ-prismZ)] = 0  # first fiber
         
     second_fiber_x = list(range(int(modelX//2-srcHolderX//2-detHolderX),int(modelX//2-srcHolderX//2)))
     second_fiber_y = list(range(int(modelY//2-prismY//2),int(modelY//2+prismY//2)))
     rot_second_fiber_x, rot_second_fiber_y = rotate(second_fiber_x, second_fiber_y, center_x, center_y, angle=angle)
     for xx, yy in zip(rot_second_fiber_x, rot_second_fiber_y):
-        vol[xx,yy,:int(detHolderZ-prismZ)] = 0  # first fiber
+        xx_ceil, yy_ceil = math.ceil(xx), math.ceil(yy)
+        xx_floor, yy_floor = math.floor(xx), math.floor(yy)
+        vol[xx_ceil,yy_ceil,:int(detHolderZ-prismZ)] = 0  # first fiber
+        vol[xx_floor,yy_floor,:int(detHolderZ-prismZ)] = 0  # first fiber
 
     # muscle
     vol[:, :, int(detHolderZ):] = 6
@@ -121,8 +142,8 @@ def rotate(vector_x, vector_y, center_x, center_y, angle):
     angle = math.radians(angle)
     Xr   =  np.cos(angle)*(X-center_x) + np.sin(angle)*(Y-center_y) + center_x    # "cloclwise"
     Yr   = -np.sin(angle)*(X-center_x) + np.cos(angle)*(Y-center_y) + center_y
-    Xr = Xr.astype(np.int32).reshape(-1)
-    Yr = Yr.astype(np.int32).reshape(-1)
+    Xr = Xr.reshape(-1)
+    Yr = Yr.reshape(-1)
     return Xr, Yr
 
 def merge_small_large(small_vol, large_vol):

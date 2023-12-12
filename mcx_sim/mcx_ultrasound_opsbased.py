@@ -310,7 +310,7 @@ class MCX:
         
         center_x = modelX/2
         center_y = modelY/2
-        angle = 10
+        angle = 9
         
         for fiber in self.modelParameters["HardwareParam"]["Detector"]["Fiber"]:
             # right - bottom
