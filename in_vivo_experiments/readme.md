@@ -20,4 +20,7 @@ Analyze *in vivo* raw data
 ## Diagram of preprocessing of raw data
 ![image](https://hackmd.io/_uploads/Sk8z4zqNa.png)
 
+## How to process raw data
+[S1_preprocess_long.ipynb](https://github.com/ShawnSun1031/IJV-Project/blob/main/in_vivo_experiments/S1_preprocess_long.ipynb)
+
 
