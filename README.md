@@ -2,9 +2,9 @@ Internal-Jugular-Vein Project
 ===
 -   Author: [Chin-Hsuan Sun](https://shawnsun1031.github.io/)
 -   License: MIT License
--   Update date: 2023/12/13
+-   Update Date: 2023/12/13
 -   Download Size: 128 MB
--   Github link: https://github.com/ShawnSun1031/IJV-Project
+-   Github Link: https://github.com/ShawnSun1031/IJV-Project
 -   Contact :email:: dicky10311111@gmail.com 
 
 > [!NOTE] 
