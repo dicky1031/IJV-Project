@@ -5,6 +5,7 @@ from glob import glob
 import os
 import sys
 import json
+import math
 
 class MCX:
 
@@ -291,6 +292,13 @@ class MCX:
         self.mcxInput["Domain"]["Media"][9]["mua"] = 0
         self.mcxInput["Domain"]["Media"][9]["mus"] = self.modelParameters["OptParam"]["CCA"]["mus"]
 
+    def rotate(self, x, y, center_x, center_y, angle):
+        angle = math.radians(angle)
+        xr = np.cos(angle)*(x-center_x) + np.sin(angle)*(y-center_y) + center_x
+        yr = -np.sin(angle)*(x-center_x) + np.cos(angle)*(y-center_y) + center_y
+        
+        return xr, yr
+    
     def setOptodes(self):
         # detector (help to extend to left and right)
         modelX = self.mcxInput["Domain"]["Dim"][0]
@@ -299,54 +307,69 @@ class MCX:
             self.modelParameters["HardwareParam"]["Detector"]["Holder"]["ZSize"])
         prismZ = self.convertUnit(
             self.modelParameters["HardwareParam"]["Detector"]["Prism"]["ZSize"])
+        
+        center_x = modelX/2
+        center_y = modelY/2
+        angle = 10
+        
         for fiber in self.modelParameters["HardwareParam"]["Detector"]["Fiber"]:
             # right - bottom
+            x = modelX/2 + self.convertUnit(fiber["SDS"])
+            y = modelY/2 - 2 *self.convertUnit(fiber["Radius"])
+            xr, yr = self.rotate(x,y,center_x,center_y,angle)
             self.mcxInput["Optode"]["Detector"].append({"R": self.convertUnit(fiber["Radius"]),
-                                                        "Pos": [modelX/2 + self.convertUnit(fiber["SDS"]),
-                                                                modelY/2 - 2 *
-                                                                self.convertUnit(
-                                                                    fiber["Radius"]),
+                                                        "Pos": [xr,
+                                                                yr,
                                                                 detHolderZ - prismZ
                                                                 ]
                                                         })
             # left - bottom
+            x = modelX/2 - self.convertUnit(fiber["SDS"])
+            y = modelY/2 - 2 *self.convertUnit(fiber["Radius"])
+            xr, yr = self.rotate(x,y,center_x,center_y,angle)
             self.mcxInput["Optode"]["Detector"].append({"R": self.convertUnit(fiber["Radius"]),
-                                                        "Pos": [modelX/2 - self.convertUnit(fiber["SDS"]),
-                                                                modelY/2 - 2 *
-                                                                self.convertUnit(
-                                                                    fiber["Radius"]),
+                                                        "Pos": [xr,
+                                                                yr,
                                                                 detHolderZ - prismZ
                                                                 ]
                                                         })
             # right - middle (original)
+            x = modelX/2 + self.convertUnit(fiber["SDS"])
+            y = modelY/2
+            xr, yr = self.rotate(x,y,center_x,center_y,angle)
             self.mcxInput["Optode"]["Detector"].append({"R": self.convertUnit(fiber["Radius"]),
-                                                        "Pos": [modelX/2 + self.convertUnit(fiber["SDS"]),
-                                                                modelY/2,
+                                                        "Pos": [xr,
+                                                                yr,
                                                                 detHolderZ - prismZ
                                                                 ]
                                                         })
             # left - middle
+            x = modelX/2 - self.convertUnit(fiber["SDS"])
+            y = modelY/2
+            xr, yr = self.rotate(x,y,center_x,center_y,angle)
             self.mcxInput["Optode"]["Detector"].append({"R": self.convertUnit(fiber["Radius"]),
-                                                        "Pos": [modelX/2 - self.convertUnit(fiber["SDS"]),
-                                                                modelY/2,
+                                                        "Pos": [xr,
+                                                                yr,
                                                                 detHolderZ - prismZ
                                                                 ]
                                                         })
             # right - top
+            x = modelX/2 + self.convertUnit(fiber["SDS"])
+            y = modelY/2 + 2 *self.convertUnit(fiber["Radius"])
+            xr, yr = self.rotate(x,y,center_x,center_y,angle)
             self.mcxInput["Optode"]["Detector"].append({"R": self.convertUnit(fiber["Radius"]),
-                                                        "Pos": [modelX/2 + self.convertUnit(fiber["SDS"]),
-                                                                modelY/2 + 2 *
-                                                                self.convertUnit(
-                                                                    fiber["Radius"]),
+                                                        "Pos": [xr,
+                                                                yr,
                                                                 detHolderZ - prismZ
                                                                 ]
                                                         })
             # left - top
+            x = modelX/2 - self.convertUnit(fiber["SDS"])
+            y = modelY/2 + 2 *self.convertUnit(fiber["Radius"])
+            xr, yr = self.rotate(x,y,center_x,center_y,angle)
             self.mcxInput["Optode"]["Detector"].append({"R": self.convertUnit(fiber["Radius"]),
-                                                        "Pos": [modelX/2 - self.convertUnit(fiber["SDS"]),
-                                                                modelY/2 + 2 *
-                                                                self.convertUnit(
-                                                                    fiber["Radius"]),
+                                                        "Pos": [xr,
+                                                                yr,
                                                                 detHolderZ - prismZ
                                                                 ]
                                                         })

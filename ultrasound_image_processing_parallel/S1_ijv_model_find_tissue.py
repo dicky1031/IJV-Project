@@ -11,7 +11,7 @@ import sys
 # %% parameters setting
 subject = "HW"
 date = "20230903"
-state = "IJVLarge"
+state = "IJVSmall"
 with open("blood_vessel_segmentation_line_new.json") as f:
     file = json.load(f)
     length10mmEdge = file[subject][date]["length10mmEdge"]
