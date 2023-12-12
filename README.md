@@ -43,7 +43,7 @@ that simulation results closely resemble reality, thus providing more accurate s
 > For **Anaconda** user, Read [**this document**](https://hackmd.io/@aMXX54b3ToSm3kTNB_LuWQ/BJ_No2Rkp)
 
 > [!IMPORTANT]
-> 1. make sure your local computer have ${\rm\color{red}{cuda \space toolkit}}$
+> 1. make sure your local computer has ${\rm\color{red}{cuda \space toolkit}}$
 > 2. ${\rm\color{red}{recompile}}$ the MCX source code at [MD703_edit_MCX_src_v2023/src](https://github.com/ShawnSun1031/IJV-Project/tree/main/MD703_edit_MCX_src_v2023/src)
 > 3. Install the dependencies: `pip install -r requirements.txt`
 > 4. Install [cupy](https://docs.cupy.dev/en/latest/install.html) package
