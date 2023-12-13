@@ -27,10 +27,15 @@ def plot_IJV_spectrum(ijv_gen, blc):
         for k in ijv_gen.keys():   
             if k.find((str(b))) != -1: # plot each bloodConc as same set
                 spec_numpy = pd.DataFrame(ijv_gen[k]).to_numpy()
-                if (idx%2) == 0:
+                if (idx%3) == 0:
                     plt.plot(used_wl,spec_numpy.reshape(-1), 'b', alpha=0.7)
                     if count == 0:
                         plt.plot(used_wl,spec_numpy.reshape(-1), 'b',label='testing', alpha=0.5)
+                        count += 1
+                elif (idx%3) == 1:
+                    plt.plot(used_wl,spec_numpy.reshape(-1), 'g', alpha=0.7)
+                    if count == 0:
+                        plt.plot(used_wl,spec_numpy.reshape(-1), 'g',label='validation', alpha=0.5)
                         count += 1
                 else:
                     plt.plot(used_wl,spec_numpy.reshape(-1), 'r', alpha=0.7)
@@ -49,9 +54,11 @@ def plot_used_spectrum(tissue, spec, mua_or_mus):
     spec_numpy = pd.DataFrame(spec).to_numpy()
     plt.figure(figsize=(12,8))
     for idx, i in enumerate(range(spec_numpy.shape[0])):
-        if (idx%2) == 0:
+        if (idx%3) == 0:
             plt.plot(used_wl,spec_numpy[i], 'b')
-        elif (idx%2) == 1:
+        elif (idx%3) == 1:
+            plt.plot(used_wl,spec_numpy[i], 'g')
+        elif (idx%3) == 2:
             plt.plot(used_wl,spec_numpy[i], 'r')
     plt.xlabel('wavelength(nm)')
     if mua_or_mus == "mus":
@@ -118,7 +125,7 @@ if __name__ == "__main__":
     SO2 = [i/100 for i in range(40,91,1)]
     used_wl = [700, 710, 717, 725, 732, 740, 743, 748, 751, 753, 
         758, 763, 768, 780, 792, 798, 805, 815, 830, 850]
-    num = 20 # number of spectrum used
+    num = 30 # number of spectrum used
     
     with open(os.path.join("OPs_used","mus_ab_bound.json"),"r") as f:
         mus_ab_bound = json.load(f)

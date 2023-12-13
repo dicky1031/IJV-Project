@@ -22,6 +22,7 @@ def train(model, optimizer, criterion, train_loader, epoch, batch_size, lr):
     trlog['batch_size'] = batch_size
     trlog['learning_rate'] = lr
     trlog['train_loss'] = []
+    trlog['val_loss'] = []
     trlog['test_loss'] = []
     min_loss = 100000
     for ep in range(epoch):
@@ -40,9 +41,23 @@ def train(model, optimizer, criterion, train_loader, epoch, batch_size, lr):
                       loss={tr_loss/(batch_idx+1)}")
         trlog['train_loss'].append(tr_loss/len(train_loader))
         min_loss = test(trlog,ep,min_loss)
+        val(trlog,ep)
         
-    
     return trlog
+
+def val(trlog,ep):
+    model.eval()
+    ts_loss = 0
+    for batch_idx, (data,target,_,_,_) in enumerate(val_loader):
+        data,target = data.to(torch.float32).cuda(), target.to(torch.float32).cuda()
+        optimizer.zero_grad()
+        output = model(data)
+        loss = criterion(output,target)
+        ts_loss += loss.item()
+        
+    print(f"[val] batch:{batch_idx}/{len(val_loader)}({100*batch_idx/len(val_loader):.2f}%) loss={ts_loss/len(val_loader)}")
+    trlog['val_loss'].append(ts_loss/len(val_loader))
+    
 
 def test(trlog,ep,min_loss):
     model.eval()
@@ -66,12 +81,10 @@ def test(trlog,ep,min_loss):
 
 
 if __name__ == "__main__":
-    train_num = 10000
-    test_num = 200
     result_folder = "prediction_model_formula24_chromophore_rand_ab"
     subject = 'ctchen'
     #%%
-    EPOCH = 50
+    EPOCH = 3
     BATCH_SIZE = 128
     lr=0.00003
     os.makedirs(os.path.join("model_save", result_folder, subject), exist_ok=True)
@@ -81,17 +94,21 @@ if __name__ == "__main__":
     print(f'train dataset size : {len(train_dataset)}')
     train_loader = DataLoader(train_dataset, batch_size=BATCH_SIZE, shuffle=True)
 
-    train_folder = os.path.join("dataset", result_folder, subject, "test")
-    test_dataset = myDataset(train_folder)
+    val_folder = os.path.join("dataset", result_folder, subject, "val")
+    val_dataset = myDataset(val_folder)
+    print(f'val dataset size : {len(val_dataset)}')
+    val_loader = DataLoader(val_dataset, batch_size=BATCH_SIZE, shuffle=False)
+    # torch.save(val_loader, os.path.join("model_save", result_folder, 'val_loader.pth'))
+    
+    test_folder = os.path.join("dataset", result_folder, subject, "test")
+    test_dataset = myDataset(test_folder)
     print(f'test dataset size : {len(test_dataset)}')
     test_loader = DataLoader(test_dataset, batch_size=BATCH_SIZE, shuffle=False)
-    torch.save(test_loader, os.path.join("model_save", result_folder, 'test_loader.pth'))
+    # torch.save(test_loader, os.path.join("model_save", result_folder, 'test_loader.pth'))
 
     # train model
     start_time = time.time()
     model = PredictionModel5(neuronsize=5).cuda()
-    # model = PredictionModel_single_SDS().cuda()
-    # model = PredictionModel3().cuda()
     optimizer = torch.optim.Adam(model.parameters(), lr=lr)
     criterion = nn.MSELoss()
     trlog = train(model, optimizer, criterion, train_loader, EPOCH, BATCH_SIZE, lr)
@@ -99,6 +116,7 @@ if __name__ == "__main__":
     print(f'elapsed time : {end_time-start_time:.3f} sec')
     trlog['elapsed_time'] = end_time-start_time
     trlog['train_size'] = len(train_dataset)
+    trlog['val_size'] = len(val_dataset)
     trlog['test_size'] = len(test_dataset)
 
     # save result

@@ -17,18 +17,18 @@ with open(os.path.join("OPs_used", "SO2.json"), 'r') as f:
     train_SO2 = SO2['train_SO2']
     test_SO2 = SO2['test_SO2']
 #%%
-def gen_prediction_input(id : int, blc : int, train_or_test: str, SO2_used : list, outputpath : str):
+def gen_prediction_input(id : int, blc : int, dataset_type: str, SO2_used : list, outputpath : str):
     # for id in range(num):
-    #     print(f'now processing {train_or_test}_{id}...')
+    #     print(f'now processing {dataset_type}_{id}...')
     #     for blc in bloodConc:
-    print(f'now processing {train_or_test}_{id}...')
+    print(f'now processing {dataset_type}_{id}...')
     prediction_input = np.zeros((len(SO2_used),2*len(wavelength)*len(wavelength)+5)) # T1_large_SDS1/SDS2 T1_small_SDS1/SDS2 T2_large_SDS1/SDS2 T2_small_SDS1/SDS2 bloodConc ans id
     # prediction_input = np.zeros((len(SO2_used),40+5))
     for i, s in enumerate(SO2_used):
-        surrogate_result_T1 = pd.read_csv(os.path.join("dataset", "surrogate_result", subject, train_or_test, 
-                                                    f'bloodConc_{blc}', 'SO2_0.7', f'{id}_{train_or_test}.csv'))
-        surrogate_result_T2 = pd.read_csv(os.path.join("dataset", "surrogate_result", subject, train_or_test, 
-                                                    f'bloodConc_{blc}', f'SO2_{s}', f'{id}_{train_or_test}.csv'))
+        surrogate_result_T1 = pd.read_csv(os.path.join("dataset", "surrogate_result", subject, dataset_type, 
+                                                    f'bloodConc_{blc}', 'SO2_0.7', f'{id}_{dataset_type}.csv'))
+        surrogate_result_T2 = pd.read_csv(os.path.join("dataset", "surrogate_result", subject, dataset_type, 
+                                                    f'bloodConc_{blc}', f'SO2_{s}', f'{id}_{dataset_type}.csv'))
         
         # filter abnormal 
         T2_SDS1_Rmax_Rmin = (surrogate_result_T2['smallIJV_SDS1'].to_numpy() / surrogate_result_T2['largeIJV_SDS1'].to_numpy()).mean()
@@ -83,32 +83,37 @@ def gen_prediction_input(id : int, blc : int, train_or_test: str, SO2_used : lis
     if prediction_input.size == 0:
         pass
     else:
-        np.save(os.path.join("dataset", outputpath, subject, train_or_test, f"{id}_blc_{blc}.npy"), prediction_input)
+        np.save(os.path.join("dataset", outputpath, subject, dataset_type, f"{id}_blc_{blc}.npy"), prediction_input)
 
 
 if __name__ == "__main__":
-    train_num = 10000
-    test_num = 200
-    outputpath = 'prediction_model_formula24_Rmax_Rmin'
+    train_num = 10
+    val_num = 2
+    test_num = 2
+    outputpath = 'prediction_model_formula24_chromophore_rand_ab'
     subject = 'ctchen'
     #%%
     os.makedirs(os.path.join("dataset", outputpath, subject, "train"), exist_ok=True)
+    os.makedirs(os.path.join("dataset", outputpath, subject, "val"), exist_ok=True)
     os.makedirs(os.path.join("dataset", outputpath, subject, "test"), exist_ok=True)
     
-    # products = []
-    # for id in range(train_num):
-    #     for blc in bloodConc:
-    #         products.append((id,blc))
+    products = []
+    for id in range(train_num):
+        for blc in bloodConc:
+            products.append((id,blc))
             
-    # Parallel(n_jobs=1)(delayed(gen_prediction_input)(id,blc,'train',train_SO2,outputpath) for id, blc in products)
+    Parallel(n_jobs=1)(delayed(gen_prediction_input)(id,blc,'train',train_SO2,outputpath) for id, blc in products)
+    
+    products = []
+    for id in range(val_num):
+        for blc in bloodConc:
+            products.append((id,blc))
+            
+    Parallel(n_jobs=1)(delayed(gen_prediction_input)(id,blc,'val',test_SO2,outputpath) for id, blc in products)
     
     products = []
     for id in range(test_num):
         for blc in bloodConc:
             products.append((id,blc))
     Parallel(n_jobs=1)(delayed(gen_prediction_input)(id,blc,'test',test_SO2,outputpath) for id, blc in products)
-    
-    # gen_prediction_input(train_num, 'train', train_SO2, outputpath)
-    # gen_prediction_input(test_num, 'test', test_SO2, outputpath)
-    
     

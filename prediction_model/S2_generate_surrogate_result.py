@@ -45,8 +45,8 @@ def preprocess_data(arr, mus_set, mua_set):
     
     return OPs_normalized, SO2_used, bloodConc_used
 
-def gen_surrogate_result(blc:int, used_SO2:list, mus:dict, mua:dict, train_or_test:str, rangdom_gen:list, id:int):
-    print(f'now processing {train_or_test}{id}...')
+def gen_surrogate_result(blc:int, used_SO2:list, mus:dict, mua:dict, dataset_type:str, rangdom_gen:list, id:int):
+    print(f'now processing {dataset_type}{id}...')
     surrogate_concurrent_data = {"wavelength" : [f'{wl} nm' for wl in used_wl],
                         "skin_mus": mus["skin"][rangdom_gen[0]],
                         "fat_mus": mus["fat"][rangdom_gen[1]],
@@ -90,13 +90,14 @@ def gen_surrogate_result(blc:int, used_SO2:list, mus:dict, mua:dict, train_or_te
         surrogate_input = surrogate_input.drop(columns=['wavelength', 'skin_mus', 'fat_mus', 'muscle_mus', 'ijv_mus', 
                                 'cca_mus', 'skin_mua', 'fat_mua', 'answer', 'bloodConc']) # drop these values for saving memory
         
-        surrogate_input.to_csv(os.path.join("dataset", "surrogate_result", subject, train_or_test, f'bloodConc_{blc}', f'SO2_{s}', f'{id}_{train_or_test}.csv'), index=False) 
+        surrogate_input.to_csv(os.path.join("dataset", "surrogate_result", subject, dataset_type, f'bloodConc_{blc}', f'SO2_{s}', f'{id}_{dataset_type}.csv'), index=False) 
     surrogate_concurrent_data = pd.DataFrame(surrogate_concurrent_data)
-    surrogate_concurrent_data.to_csv(os.path.join("dataset", "surrogate_result", subject, train_or_test, f'{id}_{train_or_test}_concurrent.csv'), index=False)
+    surrogate_concurrent_data.to_csv(os.path.join("dataset", "surrogate_result", subject, dataset_type, f'{id}_{dataset_type}_concurrent.csv'), index=False)
         
         
 if __name__ == "__main__":
     train_num = 10
+    val_num = 2
     test_num = 2
     subject = 'ctchen'
     
@@ -106,7 +107,7 @@ if __name__ == "__main__":
     small_ijv_model = SurrogateModel().cuda()
     small_ijv_model.load_state_dict(torch.load(os.path.join("surrogate_model",subject, "small_ANN_model.pth")))
     
-    #%train data
+    #%train spectrum number
     total_num = 10
 
     # get mus spectrum 
@@ -128,12 +129,26 @@ if __name__ == "__main__":
     products = []
     for id in range(train_num):
         # print(f'now processing train_{id}...')
-        rangdom_gen = [2*random.randint(0, total_num-1),2*random.randint(0, total_num-1),2*random.randint(0, total_num-1),
-                       2*random.randint(0, total_num-1),2*random.randint(0, total_num-1),2*random.randint(0, total_num-1),
-                       2*random.randint(0, total_num-1),2*random.randint(0, total_num-1),2*random.randint(0, total_num-1)] # generate evens for choose training input
+        rangdom_gen = [3*random.randint(0, total_num-1),3*random.randint(0, total_num-1),3*random.randint(0, total_num-1),
+                       3*random.randint(0, total_num-1),3*random.randint(0, total_num-1),3*random.randint(0, total_num-1),
+                       3*random.randint(0, total_num-1),3*random.randint(0, total_num-1),3*random.randint(0, total_num-1)] # 0, 3, 6, 9, ... for training spectrum
         for blc in bloodConc:
             products.append((id,rangdom_gen, blc))
-    Parallel(n_jobs=1)(delayed(gen_surrogate_result)(blc, train_SO2, mus, mua, "train", rangdom_gen, id) for id, rangdom_gen, blc in products)
+    Parallel(n_jobs=-5)(delayed(gen_surrogate_result)(blc, train_SO2, mus, mua, "train", rangdom_gen, id) for id, rangdom_gen, blc in products)
+    
+    # # generate valset
+    for blc in bloodConc:
+        for s in test_SO2:
+            os.makedirs(os.path.join("dataset", "surrogate_result", subject, 'val', f'bloodConc_{blc}', f'SO2_{s}'), exist_ok=True)
+    products = []
+    for id in range(val_num):
+        # print(f'now processing test_{id}...')
+        rangdom_gen = [3*random.randint(0, total_num-1)+1,3*random.randint(0, total_num-1)+1,3*random.randint(0, total_num-1)+1,
+                       3*random.randint(0, total_num-1)+1,3*random.randint(0, total_num-1)+1,3*random.randint(0, total_num-1)+1,
+                       3*random.randint(0, total_num-1)+1,3*random.randint(0, total_num-1)+1,3*random.randint(0, total_num-1)+1] # 1, 4, 7, 10, ... for validation spectrum
+        for blc in bloodConc:
+            products.append((id,rangdom_gen, blc))
+    Parallel(n_jobs=-5)(delayed(gen_surrogate_result)(blc, test_SO2, mus, mua, "val", rangdom_gen, id) for id, rangdom_gen, blc in products)
     
     
     # # generate testset
@@ -143,10 +158,10 @@ if __name__ == "__main__":
     products = []
     for id in range(test_num):
         # print(f'now processing test_{id}...')
-        rangdom_gen = [2*random.randint(0, total_num-1)+1,2*random.randint(0, total_num-1)+1,2*random.randint(0, total_num-1)+1,
-                       2*random.randint(0, total_num-1)+1,2*random.randint(0, total_num-1)+1,2*random.randint(0, total_num-1)+1,
-                       2*random.randint(0, total_num-1)+1,2*random.randint(0, total_num-1)+1,2*random.randint(0, total_num-1)+1] # generate odds for choose training input
+        rangdom_gen = [3*random.randint(0, total_num-1)+2,3*random.randint(0, total_num-1)+2,3*random.randint(0, total_num-1)+2,
+                       3*random.randint(0, total_num-1)+2,3*random.randint(0, total_num-1)+2,3*random.randint(0, total_num-1)+2,
+                       3*random.randint(0, total_num-1)+2,3*random.randint(0, total_num-1)+2,3*random.randint(0, total_num-1)+2] # 2, 5, 8, 11, ... for testing spectrum
         for blc in bloodConc:
             products.append((id,rangdom_gen, blc))
-    Parallel(n_jobs=1)(delayed(gen_surrogate_result)(blc, test_SO2, mus, mua, "test", rangdom_gen, id) for id, rangdom_gen, blc in products)
+    Parallel(n_jobs=-5)(delayed(gen_surrogate_result)(blc, test_SO2, mus, mua, "test", rangdom_gen, id) for id, rangdom_gen, blc in products)
     
