@@ -9,6 +9,13 @@ Analyze *in vivo* raw data
 4. keep your pre-trained prediction model in the directory **/model_save/\<exp_name>/\<subject>/**
 5. Make sure your **OPs_used** is synchronized as previous experiment (MCX simulation, training surrogate model, training prediction model)
 6. Make sure your **ANN_models.py** is synchronized as previous experiment (training surrogate model, training prediction model) 
+
+- Screenshot of filepath should look like:
+![image](https://hackmd.io/_uploads/rk3KbBD8a.png)
+![image](https://hackmd.io/_uploads/BJ3cWrwIa.png)
+![image](https://hackmd.io/_uploads/Hy9aWBD8a.png)
+
+
  
 - Launch: 
     - **S1_preprocess_short.ipynb**: preprocess raw data of short channel.
@@ -22,5 +29,11 @@ Analyze *in vivo* raw data
 
 ## How to process raw data
 [S1_preprocess_long.ipynb](https://github.com/ShawnSun1031/IJV-Project/blob/main/in_vivo_experiments/S1_preprocess_long.ipynb)
+[S1_preprocess_short.ipynb](https://github.com/ShawnSun1031/IJV-Project/blob/main/in_vivo_experiments/S1_preprocess_short.ipynb)
 
+* After finishing these two process, you would get 4 csv files. 
+    * Processed short ***in_vivo*_results_exp.csv**
+    * Processed long ***in_vivo*_results_exp.csv** 
+    * Processed short **calibration.csv** : mapping to simulation intensity
+    * Processed long **calibration.csv** : mapping to simulation intensity
 
