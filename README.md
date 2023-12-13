@@ -2,8 +2,9 @@ Internal-Jugular-Vein Project
 ===
 -   Author: [Chin-Hsuan Sun](https://shawnsun1031.github.io/)
 -   License: MIT License
--   Update date: 2023/12/13
--   Github link: https://github.com/ShawnSun1031/IJV-Project
+-   Update Date: 2023/12/13
+-   Download Size: 128 MB
+-   Github Link: https://github.com/ShawnSun1031/IJV-Project
 -   Contact :email:: dicky10311111@gmail.com 
 
 > [!NOTE] 
@@ -31,7 +32,7 @@ Internal-Jugular-Vein Project
 that simulation results closely resemble reality, thus providing more accurate simulated data.  
 > &nbsp;&nbsp;&nbsp;To evaluate the prediction model’s performance, the study investigates the impacts of factors such as human respiration, changes in oxygen levels in surrounding tissues, and measurement noise on the predictive model. The results indicate that the effects of respiration may lead to a maximum increase of 3% to 4% in root-mean-square error (RMSE). Changes in oxygen levels in surrounding tissues have a less significant impact, with a maximum RMSE increase of only 1%. Measurement signal errors can cause an RMSE increase of 1% to 2%.  
 > &nbsp;&nbsp;&nbsp;For model generalization, the study conducts simulated experiments using transfer learning. Through experimentation, it is observed that by using a thousandth of the original dataset and employing transfer learning, an RMSE of 3.5% can be achieved, while without transfer learning and using only a thousandth of the dataset, an RMSE of 7% is obtained.  
-> &nbsp;&nbsp;&nbsp;Based on the simulation results, the prediction model established in this study predicts changes in internal jugular vein oxygen saturation with an RMSE of less than 1.5%. In vivo experiments involve measuring diffuse reflectance spectra from living subjects, extracting spectral features using the formulas designed in this study, and inputting them into the prediction model after appropriate normalization. The prediction results are consistent with expected physiological response and spectral features in the measured data.
+> &nbsp;&nbsp;&nbsp;Based on the simulation results, the prediction model established in this study predicts changes in internal jugular vein oxygen saturation with an RMSE of less than 1.5%. In vivo experiments involve measuring diffuse reflectance spectra from living subjects, extracting spectral features using the formulas designed in this study, and inputting them into the prediction model after appropriate normalization. The prediction results are consistent with expected physiological response and spectral features in the measured data.  
 >  &mdash; <cite>[Chin-Hsuan Sun][1]</cite>  
 
 [1]: https://shawnsun1031.github.io/
@@ -43,7 +44,7 @@ that simulation results closely resemble reality, thus providing more accurate s
 > For **Anaconda** user, Read [**this document**](https://hackmd.io/@aMXX54b3ToSm3kTNB_LuWQ/BJ_No2Rkp)
 
 > [!IMPORTANT]
-> 1. make sure your local computer have ${\rm\color{red}{cuda \space toolkit}}$
+> 1. make sure your local computer has ${\rm\color{red}{cuda \space toolkit}}$
 > 2. ${\rm\color{red}{recompile}}$ the MCX source code at [MD703_edit_MCX_src_v2023/src](https://github.com/ShawnSun1031/IJV-Project/tree/main/MD703_edit_MCX_src_v2023/src)
 > 3. Install the dependencies: `pip install -r requirements.txt`
 > 4. Install [cupy](https://docs.cupy.dev/en/latest/install.html) package
