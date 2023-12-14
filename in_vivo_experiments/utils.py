@@ -255,7 +255,7 @@ class process_raw_data():
             plt.close()
     
     def plot_cvp(self, data, name, start_time, end_time, is_show=False):
-        cvp = data.sum(axis=1)
+        cvp = data.mean(axis=1)
         cvp = 1 / cvp
         time = np.linspace(start_time, end_time, cvp[round(start_time/self.time_resolution):round(end_time/self.time_resolution)].shape[0])
         plt.figure(figsize=(10,6))    
