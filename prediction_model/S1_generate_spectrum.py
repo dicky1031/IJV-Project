@@ -183,10 +183,10 @@ if __name__ == "__main__":
                     test_count += 1
         ax.set_xlabel('wavelength(nm)')
         if mua_or_mus == "mus":
-            ax.set_ylabel("$\mu_s$($mm^{-1}$)")
+            ax.set_ylabel("$\mu_s$($cm^{-1}$)")
             ax.set_title(f'{tissue} $\mu_s$ spectrum')
         elif mua_or_mus == "mua":
-            ax.set_ylabel("$\mu_a$($mm^{-1}$)")
+            ax.set_ylabel("$\mu_a$($cm^{-1}$)")
             ax.set_title(f'{tissue} $\mu_a$ spectrum')
         # plt.legend(['testing','training'])
         # plt.legend(loc='lower center', bbox_to_anchor=(0.5, -0.3), ncol=3,
