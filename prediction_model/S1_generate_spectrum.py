@@ -7,8 +7,7 @@ import pandas as pd
 import matplotlib as mpl
 import scienceplots
 mpl.rcParams.update(mpl.rcParamsDefault)
-plt.style.use('science')
-plt.rcParams.update({'font.size': 36})
+plt.style.use(['science','ieee'])
 os.makedirs("pic", exist_ok=True)
 
 # function
@@ -21,45 +20,59 @@ def calculateMus(wl, tissue, a, b):
     return mus
 
 def plot_IJV_spectrum(ijv_gen, blc):
-    plt.figure(figsize=(12,8))
+    # plt.figure(figsize=(12,8))
     count = 0 # for plot train and test
     for idx, b in enumerate(blc):
         for k in ijv_gen.keys():   
             if k.find((str(b))) != -1: # plot each bloodConc as same set
                 spec_numpy = pd.DataFrame(ijv_gen[k]).to_numpy()
                 if (idx%3) == 0:
-                    plt.plot(used_wl,spec_numpy.reshape(-1), 'b', alpha=0.7)
+                    plt.plot(used_wl,spec_numpy.reshape(-1), 'b-', alpha=0.7)
                     if count == 0:
-                        plt.plot(used_wl,spec_numpy.reshape(-1), 'b',label='testing', alpha=0.5)
+                        plt.plot(used_wl,spec_numpy.reshape(-1), 'b-',label='testing', alpha=0.5)
                         count += 1
                 elif (idx%3) == 1:
-                    plt.plot(used_wl,spec_numpy.reshape(-1), 'g', alpha=0.7)
+                    plt.plot(used_wl,spec_numpy.reshape(-1), 'g:', alpha=0.7)
                     if count == 0:
-                        plt.plot(used_wl,spec_numpy.reshape(-1), 'g',label='validation', alpha=0.5)
+                        plt.plot(used_wl,spec_numpy.reshape(-1), 'g:',label='validation', alpha=0.5)
                         count += 1
                 else:
-                    plt.plot(used_wl,spec_numpy.reshape(-1), 'r', alpha=0.7)
+                    plt.plot(used_wl,spec_numpy.reshape(-1), 'r--', alpha=0.7)
                     if count == 1:
-                        plt.plot(used_wl,spec_numpy.reshape(-1), 'r', label='training', alpha=0.5)
+                        plt.plot(used_wl,spec_numpy.reshape(-1), 'r--', label='training', alpha=0.5)
                         count += 1    
     plt.xlabel('wavelength(nm)')
     plt.ylabel("$\mu_a$($mm^{-1}$)")
     plt.title('ijv $\mu_a$ spectrum')
     # plt.legend()
+    plt.legend(loc='lower center', bbox_to_anchor=(0.5, -0.5), ncol=3,
+                fancybox=True, shadow=True)
     plt.tight_layout()
     plt.savefig(os.path.join("pic", "ijv_mua.png"), dpi=300, format='png', bbox_inches='tight')
     plt.show()  
 
 def plot_used_spectrum(tissue, spec, mua_or_mus):
     spec_numpy = pd.DataFrame(spec).to_numpy()
-    plt.figure(figsize=(12,8))
+    # plt.figure(figsize=(12,8))
+    train_count = 0
+    val_count = 0
+    test_count = 0
     for idx, i in enumerate(range(spec_numpy.shape[0])):
         if (idx%3) == 0:
-            plt.plot(used_wl,spec_numpy[i], 'b')
+            plt.plot(used_wl,spec_numpy[i], 'b-')
+            if train_count == 0: 
+                plt.plot(used_wl,spec_numpy[i], 'b-', label='training')
+                train_count += 1
         elif (idx%3) == 1:
-            plt.plot(used_wl,spec_numpy[i], 'g')
+            plt.plot(used_wl,spec_numpy[i], 'g:')
+            if val_count == 0:
+                plt.plot(used_wl,spec_numpy[i], 'g:', label='validation')
+                val_count += 1
         elif (idx%3) == 2:
-            plt.plot(used_wl,spec_numpy[i], 'r')
+            plt.plot(used_wl,spec_numpy[i], 'r--')
+            if test_count == 0:
+                plt.plot(used_wl,spec_numpy[i], 'r--', label='testing')
+                test_count += 1
     plt.xlabel('wavelength(nm)')
     if mua_or_mus == "mus":
         plt.ylabel("$\mu_s$($mm^{-1}$)")
@@ -68,7 +81,8 @@ def plot_used_spectrum(tissue, spec, mua_or_mus):
         plt.ylabel("$\mu_a$($mm^{-1}$)")
         plt.title(f'{tissue} $\mu_a$ spectrum')
     # plt.legend(['testing','training'])
-    
+    plt.legend(loc='lower center', bbox_to_anchor=(0.5, -0.3), ncol=3,
+                fancybox=True, shadow=True)
     plt.savefig(os.path.join("pic", f'{tissue}_{mua_or_mus}_spectrum.png'), dpi=300, format='png', bbox_inches='tight')
     plt.show()
 
@@ -135,47 +149,91 @@ if __name__ == "__main__":
     # mus_gen
     tissue = ['skin', 'fat', 'muscle', 'blood']
     mus_gen = {}
-    for t in tissue:
+    fig = plt.figure(figsize=(4,3))
+    for plot_count, t in enumerate(tissue, start=1):
         mus_spec = random_gen_mus(num, used_wl, t,  mus_ab_bound[f'{t}']['max'][0], mus_ab_bound[f'{t}']['min'][0], 
                                     mus_ab_bound[f'{t}']['max'][1], mus_ab_bound[f'{t}']['min'][1])
         mus_gen[t] = mus_spec
-        plot_used_spectrum(t, mus_spec, "mus")
+        # plot_used_spectrum(t, mus_spec, "mus")
+        tissue = t
+        spec = mus_spec
+        mua_or_mus = "mus"
+        spec_numpy = pd.DataFrame(spec).to_numpy()*10 # mm^-1 --> cm^-1
+        # plt.figure(figsize=(12,8))
+        train_count = 0
+        val_count = 0
+        test_count = 0
+        ax = plt.subplot(2,2, plot_count)
+        ax.set_title(f'{tissue} $\mu_a$ spectrum')
+        for idx, i in enumerate(range(spec_numpy.shape[0])):
+            if (idx%3) == 0:
+                ax.plot(used_wl,spec_numpy[i], 'b-')
+                if train_count == 0: 
+                    ax.plot(used_wl,spec_numpy[i], 'b-', label='training')
+                    train_count += 1
+            elif (idx%3) == 1:
+                ax.plot(used_wl,spec_numpy[i], 'g:')
+                if val_count == 0:
+                    ax.plot(used_wl,spec_numpy[i], 'g:', label='validation')
+                    val_count += 1
+            elif (idx%3) == 2:
+                ax.plot(used_wl,spec_numpy[i], 'r--')
+                if test_count == 0:
+                    ax.plot(used_wl,spec_numpy[i], 'r--', label='testing')
+                    test_count += 1
+        ax.set_xlabel('wavelength(nm)')
+        if mua_or_mus == "mus":
+            ax.set_ylabel("$\mu_s$($mm^{-1}$)")
+            ax.set_title(f'{tissue} $\mu_s$ spectrum')
+        elif mua_or_mus == "mua":
+            ax.set_ylabel("$\mu_a$($mm^{-1}$)")
+            ax.set_title(f'{tissue} $\mu_a$ spectrum')
+        # plt.legend(['testing','training'])
+        # plt.legend(loc='lower center', bbox_to_anchor=(0.5, -0.3), ncol=3,
+        #             fancybox=True, shadow=True)
+    handles, labels = ax.get_legend_handles_labels()
+    fig.legend(handles, labels, loc='lower center', bbox_to_anchor=(0.5, -0.05), ncol=3,
+                fancybox=True, shadow=True)
+    plt.tight_layout()
+    plt.savefig(os.path.join("pic", f'{mua_or_mus}_spectrum.png'), dpi=300, format='png', bbox_inches='tight')
+    # plt.savefig(os.path.join("pic", f'{tissue}_{mua_or_mus}_spectrum.png'), dpi=300, format='png', bbox_inches='tight')
+    plt.close()
     
-    # mua_gen --> for skin fat cca muscle
-    tissue = ['skin', 'fat', 'cca', 'muscle']
-    mua_gen = {}
-    for t in tissue:
-        mua_spec = random_gen_mua(num, used_wl, t, mua_bound)
-        mua_gen[t] = mua_spec
-        plot_used_spectrum(t, mua_spec, "mua")
+    # # mua_gen --> for skin fat cca muscle
+    # tissue = ['skin', 'fat', 'cca', 'muscle']
+    # mua_gen = {}
+    # for t in tissue:
+    #     mua_spec = random_gen_mua(num, used_wl, t, mua_bound)
+    #     mua_gen[t] = mua_spec
+    #     plot_used_spectrum(t, mua_spec, "mua")
 
-    # mua_gen --> for ijv     
-    ijv_gen = {}
-    blc = np.linspace(bloodConc[0],bloodConc[1],num, dtype=int).tolist()
-    random.shuffle(blc)
-    for b in blc:
-        ijv_save = np.empty((len(SO2), len(used_wl)+1)) # record SO2 + wavelength
-        for idx, s in enumerate(SO2):
-            ijv_spec = random_gen_ijv_mua(used_wl, mua_bound, b, bloodConc, s)
-            ijv_gen[f"ijv_bloodConc_{b}_bloodSO2_{s}"] = ijv_spec
-            ijv_save[idx] = np.array([s]+ijv_spec)
-        columns = ['SO2'] + [f'{wl}_nm' for wl in used_wl]
-        ijv_save = pd.DataFrame(ijv_save, columns=columns)
-        ijv_save.to_csv(os.path.join("OPs_used", f"ijv_mua_bloodConc_{b}.csv"), index=False)
-    plot_IJV_spectrum(ijv_gen, blc)
+    # # mua_gen --> for ijv     
+    # ijv_gen = {}
+    # blc = np.linspace(bloodConc[0],bloodConc[1],num, dtype=int).tolist()
+    # random.shuffle(blc)
+    # for b in blc:
+    #     ijv_save = np.empty((len(SO2), len(used_wl)+1)) # record SO2 + wavelength
+    #     for idx, s in enumerate(SO2):
+    #         ijv_spec = random_gen_ijv_mua(used_wl, mua_bound, b, bloodConc, s)
+    #         ijv_gen[f"ijv_bloodConc_{b}_bloodSO2_{s}"] = ijv_spec
+    #         ijv_save[idx] = np.array([s]+ijv_spec)
+    #     columns = ['SO2'] + [f'{wl}_nm' for wl in used_wl]
+    #     ijv_save = pd.DataFrame(ijv_save, columns=columns)
+    #     ijv_save.to_csv(os.path.join("OPs_used", f"ijv_mua_bloodConc_{b}.csv"), index=False)
+    # plot_IJV_spectrum(ijv_gen, blc)
 
-    mua_gen.update(ijv_gen)
-    with open(os.path.join("OPs_used","mus_spectrum.json"), "w") as f:
-        json.dump(mus_gen, f, indent=4)
-    with open(os.path.join("OPs_used","mua_spectrum.json"), "w") as f:
-        json.dump(mua_gen, f, indent=4)
-    used_bloodConc = {'bloodConc' : blc}
-    with open(os.path.join("OPs_used", "bloodConc.json"), "w") as f:
-        json.dump(used_bloodConc, f, indent=4)
-    used_wl = {'wavelength' : used_wl}
-    with open(os.path.join('OPs_used', "wavelength.json"), "w") as f:
-        json.dump(used_wl, f, indent=4)
-    used_SO2 = {"train_SO2" : SO2[::5],
-                "test_SO2" : SO2}
-    with open(os.path.join("OPs_used", "SO2.json"), "w") as f:
-        json.dump(used_SO2, f,indent=4)
+    # mua_gen.update(ijv_gen)
+    # with open(os.path.join("OPs_used","mus_spectrum.json"), "w") as f:
+    #     json.dump(mus_gen, f, indent=4)
+    # with open(os.path.join("OPs_used","mua_spectrum.json"), "w") as f:
+    #     json.dump(mua_gen, f, indent=4)
+    # used_bloodConc = {'bloodConc' : blc}
+    # with open(os.path.join("OPs_used", "bloodConc.json"), "w") as f:
+    #     json.dump(used_bloodConc, f, indent=4)
+    # used_wl = {'wavelength' : used_wl}
+    # with open(os.path.join('OPs_used', "wavelength.json"), "w") as f:
+    #     json.dump(used_wl, f, indent=4)
+    # used_SO2 = {"train_SO2" : SO2[::5],
+    #             "test_SO2" : SO2}
+    # with open(os.path.join("OPs_used", "SO2.json"), "w") as f:
+    #     json.dump(used_SO2, f,indent=4)
