@@ -12,7 +12,8 @@ class ANN(nn.Module):
             nn.ReLU(),
             nn.Linear(128, 128),
             nn.ReLU(),
-            nn.Linear(128, 2)
+            nn.Linear(128, 2),
+            nn.Sigmoid()
             )
         
     def forward(self, x):

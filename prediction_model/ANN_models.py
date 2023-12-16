@@ -117,7 +117,8 @@ class PredictionModel5(nn.Module):
             nn.ReLU(),
             nn.Linear(16*neuronsize, 8*neuronsize),
             nn.ReLU(),
-            nn.Linear(8*neuronsize, 1)
+            nn.Linear(8*neuronsize, 1),
+            nn.Sigmoid()
             )
         
     def forward(self, x):
