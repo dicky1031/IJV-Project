@@ -6,9 +6,9 @@ Eric 交接文件
 
 - [IJV Notebook](/handover/eric/IJV_Notebook/)
 
-- [組織模型設定 July, 2021 - Revised](https://hackmd.io/@73X8klpNRmSsdgJzudHbgA/Byo9D2iCO)
+- [組織模型設定 July, 2021 - Revised](/handover/eric/IJV_tissue_model_setting/)
 
-- [Useful mcx-user group threads 與 MCX Code 整理](https://hackmd.io/@73X8klpNRmSsdgJzudHbgA/BJ--KkPkL)
+- [Useful mcx-user group threads 與 MCX Code 整理](/handover/eric/IJV_Useful_mcx-user_group_threads_MCX_code_tutorial/)
 
 - [QEPro 環境安裝](/handover/eric/IJV_QEPro_installation/)
 

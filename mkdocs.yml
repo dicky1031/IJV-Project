@@ -16,6 +16,8 @@ nav:
       - MD703 Computer Setting Tutorial: 'handover/MD703_Computer_Setting_Tutorial.md'
       - ImageJ Tutorial - Analyze Ultrasound Image: 'handover/ImageJ_tutorial.md'
     - Eric:
+      - IJV Tissue Model Setting: 'handover/eric/IJV_tissue_model_setting.md'
+      - IJV Useful MCX User Group Threads: 'handover/eric/IJV_Useful_mcx-user_group_threads_MCX_code_tutorial.md'
       - IJV Notebook: 'handover/eric/IJV_Notebook.md'
       - IJV Holder Design and In-vivo Precautions : 'handover/eric/IJV_holder_design_in_vivo_precautions.md'
       - IJV QEPro Installation: 'handover/eric/IJV_QEPro_installation.md'
