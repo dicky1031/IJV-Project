@@ -1,0 +1,1396 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="IJV-Project is a project for IJV course.">
+      
+      
+        <meta name="author" content="Chin-Hsuan Sun">
+      
+      
+      
+        <link rel="prev" href="../handover/eric/MD703_3D_printing_tutorial/">
+      
+      
+        <link rel="next" href="../surrogate_model/plot_surrogate_model_structure/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.25">
+    
+    
+      
+        <title>MCX Simulation - IJV-PROJECT</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.6543a935.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#how-to-execute-mcx_sim" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="IJV-PROJECT" class="md-header__button md-logo" aria-label="IJV-PROJECT" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            IJV-PROJECT
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              MCX Simulation
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/ShawnSun1031/IJV-Project" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    IJV-Project
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="IJV-PROJECT" class="md-nav__button md-logo" aria-label="IJV-PROJECT" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    IJV-PROJECT
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/ShawnSun1031/IJV-Project" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    IJV-Project
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Handover
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Handover
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../handover/handover/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Handover
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    SCS
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            SCS
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../handover/IJV_optical_properties/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    IJV Optical Properties
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../handover/eidt_mcx_source_code/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Edit MCX Source Code
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../handover/ijv_numeric_model_constructed_by_ultrasound/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Construct IJV Numerical Model
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../handover/MD703_Computer_Setting_Tutorial/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    MD703 Computer Setting Tutorial
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../handover/ImageJ_tutorial/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ImageJ Tutorial - Analyze Ultrasound Image
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Eric
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            Eric
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../handover/eric/IJV_Notebook/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    IJV Notebook
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../handover/eric/IJV_holder_design_in_vivo_precautions/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    IJV Holder Design and In-vivo Precautions
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../handover/eric/IJV_QEPro_installation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    IJV QEPro Installation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../handover/eric/MD703_3D_printing_tutorial/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    MD703 3D Printing and Tutorial
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    MCX Simulation
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    MCX Simulation
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#table-of-contents" class="md-nav__link">
+    <span class="md-ellipsis">
+      Table of Contents
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#executing-experiments" class="md-nav__link">
+    <span class="md-ellipsis">
+      Executing Experiments
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#beginners-guide" class="md-nav__link">
+    <span class="md-ellipsis">
+      Beginners Guide
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#details-for-setting" class="md-nav__link">
+    <span class="md-ellipsis">
+      Details for setting
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mcx-forum" class="md-nav__link">
+    <span class="md-ellipsis">
+      MCX forum
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mcx-cloud" class="md-nav__link">
+    <span class="md-ellipsis">
+      MCX cloud
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#analyze-the-output-file-from-mcx" class="md-nav__link">
+    <span class="md-ellipsis">
+      Analyze the output file from MCX
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#todo" class="md-nav__link">
+    <span class="md-ellipsis">
+      TODO
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="TODO">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tags-mcx-documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      tags: MCX Documentation
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Surrogate Model
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Surrogate Model
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../surrogate_model/plot_surrogate_model_structure/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Plot Surrogate Model Structure
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../surrogate_model/plot_result/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Plot Result
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Prediction Model
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Prediction Model
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../prediction_model/instructions/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Instructions
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../prediction_model/plot_nested_k_fold_cross_validation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Plot Nested K-fold Cross Validation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../prediction_model/plot_prediction_model_structure/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Plot Prediciton model Structure
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../prediction_model/plot_result/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Plot Result
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../prediction_model/plot_simulated_Rmax_Rmin/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Plot Simulated Rmax Rmin
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../prediction_model/plot_spectrum_noise/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Plot Spectrum Noise
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../prediction_model/plot_spectrum/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    plot similarity
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../prediction_model/plot_spectrum2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Plot Spectrum2
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    In-vivo Experiments
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            In-vivo Experiments
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../in_vivo_experiments/introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../in_vivo_experiments/S1_preprocess_long/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Preprocess Long Channel
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../in_vivo_experiments/S1_preprocess_short/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Preprocess Short Channel
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../in_vivo_experiments/S2_predict_measured_data/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Process Data and Predict by ANN
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ultrasound_image_processing_parallel/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Ultrasound Image Processing Parallel
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#table-of-contents" class="md-nav__link">
+    <span class="md-ellipsis">
+      Table of Contents
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#executing-experiments" class="md-nav__link">
+    <span class="md-ellipsis">
+      Executing Experiments
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#beginners-guide" class="md-nav__link">
+    <span class="md-ellipsis">
+      Beginners Guide
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#details-for-setting" class="md-nav__link">
+    <span class="md-ellipsis">
+      Details for setting
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mcx-forum" class="md-nav__link">
+    <span class="md-ellipsis">
+      MCX forum
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mcx-cloud" class="md-nav__link">
+    <span class="md-ellipsis">
+      MCX cloud
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#analyze-the-output-file-from-mcx" class="md-nav__link">
+    <span class="md-ellipsis">
+      Analyze the output file from MCX
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#todo" class="md-nav__link">
+    <span class="md-ellipsis">
+      TODO
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="TODO">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tags-mcx-documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      tags: MCX Documentation
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="how-to-execute-mcx_sim">How to execute MCX_sim</h1>
+<p><a href="https://hackmd.io/ygh1d2wOSeuPGTxB9IZHEQ"><img alt="hackmd-github-sync-badge" src="https://hackmd.io/ygh1d2wOSeuPGTxB9IZHEQ/badge" /></a></p>
+<h2 id="table-of-contents">Table of Contents</h2>
+<ul>
+<li><a href="/MCX_simulation/#executing-experiments">Executing Experiments</a></li>
+<li><a href="/MCX_simulation/#beginners-guide">Beginners Guide</a></li>
+<li><a href="/MCX_simulation/#details-for-setting">Details for setting</a></li>
+<li><a href="/MCX_simulation/#mcx-forum">MCX forum</a></li>
+<li><a href="/MCX_simulation/#mcx-cloud">MCX cloud</a></li>
+<li><a href="/MCX_simulation/#analyze-the-output-file-from-mcx">Analyze the output file from MCX</a></li>
+<li><a href="/MCX_simulation/#todo">TODO</a></li>
+</ul>
+<h2 id="executing-experiments">Executing Experiments</h2>
+<p>Make sure you already have /bin/MCX in this directory.
+If not, compiled from <strong>MD703_edit_MCX_src_v2023/src</strong> in advance.*</p>
+<p>You should use <strong>linux</strong> environment to do the following commands.
+If you want to execute in <strong>Windows</strong>, you need to fix two problems carefully:
+1. Compile the <strong>MD703_edit_MCX_src_v2023/src</strong> in <strong>Windows</strong>, we use a user-define LED source pattern to make the simulation in consistent with the experiments.
+2. Write your own shell script in Windows version. (bash can't work, use batch)</p>
+<pre><code>bash Run_MCX_Sim.sh
+</code></pre>
+<p>please see <strong>Run_MCX_Sim.sh</strong> for details and understand the work flows.</p>
+<h2 id="beginners-guide">Beginners Guide</h2>
+<p>If you are a total beginner to this, start here!</p>
+<ol>
+<li>Learn some syntax about shell script <a href="https://blog.techbridge.cc/2019/11/15/linux-shell-script-tutorial/">https://blog.techbridge.cc/2019/11/15/linux-shell-script-tutorial/</a></li>
+<li>Read the document about MCX source code <a href="https://github.com/fangq/mcx">https://github.com/fangq/mcx</a></li>
+</ol>
+<h2 id="details-for-setting">Details for setting</h2>
+<p>[LED source]:<br />
+1. in the folder <strong>"input_template/share_files/model_input_related"</strong> contains the CDF of LED source (multiplied by sin due to 3D).<br />
+2. we edited the source code, to view what we edited check this <a href="https://github.com/fangq/mcx/pull/194/files">https://github.com/fangq/mcx/pull/194/files</a>  <br />
+3. more detail about LED source <a href="/handover/eric/IJV_Notebook/#20210326-mcx_corecu">see here</a><br />
+4. Geometry model setting <a href="https://hackmd.io/@73X8klpNRmSsdgJzudHbgA/Byo9D2iCO?fbclid=IwAR11h4vS-rScHVwF4zTrYSlFVayP8p63mHKPTCLOthZ6d3p3Kd0SmH1kyDI">IJV | 組織模型設定 July, 2021 - Revised</a>  </p>
+<p>[How we execute MCX]:
+1. we use <strong>mcx_ultrasound_opsbased.py</strong> to access the executive file which is compiled from the source code</p>
+<h2 id="mcx-forum">MCX forum</h2>
+<p>This is the google group of MCX.<br />
+There are lots of conversation and discussion about utilization of MCX.<br />
+https://groups.google.com/g/mcx-users</p>
+<h2 id="mcx-cloud">MCX cloud</h2>
+<p>When you run <strong>S3_run_sim.py</strong>, it will generate a file called <strong>input_run_&lt;#&gt;_forpreview.json</strong>. Copy the content and paste it in the MCX cloud to view the structure you designed.</p>
+<ul>
+<li>Find the <strong>input_run_&lt;#&gt;_forpreview.json</strong> in <strong>run_&lt;#&gt;/json_output/</strong>
+<img alt="image" src="https://hackmd.io/_uploads/SJnRGw2ST.png" /></li>
+<li>Copy the content</li>
+<li>Open the MCX cloud website: https://mcx.space/cloud/# and click the JSON bottom. <img alt="image" src="https://hackmd.io/_uploads/rJWomDnB6.png" /></li>
+<li>Paste your content here <img alt="image" src="https://hackmd.io/_uploads/BydGNDhHT.png" /></li>
+<li>Change to Preview and have fun! <img alt="image" src="https://hackmd.io/_uploads/rytjVP2rT.png" /></li>
+</ul>
+<h2 id="analyze-the-output-file-from-mcx">Analyze the output file from MCX</h2>
+<p>Please look at <a href="https://github.com/ShawnSun1031/IJV-Project/blob/main/mcx_sim/utils.py">utils.py</a> to get the comprehension about how to analyze the output file from MCX such as pathlength, scattering count, diffuse reflectance and so on.</p>
+<h2 id="todo">TODO</h2>
+<ul>
+<li>[ ] 1. Write an example code for how to use <a href="https://github.com/ShawnSun1031/IJV-Project/blob/main/mcx_sim/utils.py">utils.py</a>  </li>
+<li>[ ] 2. To apply different NA on different SDS.<br />
+https://github.com/ShawnSun1031/IJV-Project/blob/main/mcx_sim/S3_run_sim.py#L146<br />
+https://github.com/ShawnSun1031/IJV-Project/blob/main/mcx_sim/mcx_ultrasound_opsbased.py#L419</li>
+<li>[x] 3. Create functions to access the MCX simulation results.<br />
+Function list (reference as ma):<br />
+https://github.com/fangq/mcx/blob/master/utils/mcxmeanpath.m<br />
+https://github.com/fangq/mcx/blob/master/utils/mcxmeanscat.m</li>
+</ul>
+<h6 id="tags-mcx-documentation">tags: <code>MCX</code> <code>Documentation</code></h6>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright © 2024 Chin-Hsuan Sun
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.081f42fc.min.js"></script>
+      
+    
+  </body>
+</html>
